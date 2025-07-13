@@ -1,0 +1,244 @@
+# ESPHome configuration -- https://esphome.io/
+# for energy metering device -- https://github.com/zargony/smarthome-metering
+
+esp32:
+  board: esp32-c3-devkitc-02
+  framework:
+    type: esp-idf
+
+esphome:
+  name: metering
+external_components:
+  - source: github://mampfes/esphome_obis_d0@main
+
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+network:
+  enable_ipv6: true
+
+mqtt:
+  broker: mqtt.home.zargony.com
+  discover_ip: false
+  discovery: false
+
+logger:
+  level: DEBUG
+  logs:
+    esp-idf: INFO
+
+web_server:
+  auth:
+    username: admin
+    password: !secret admin_password
+  local: true
+
+ota:
+  - platform: esphome
+    password: !secret admin_password
+
+uart:
+  baud_rate: 9600
+  tx_pin: GPIO7
+  rx_pin: GPIO6
+  data_bits: 7
+  parity: EVEN
+  stop_bits: 1
+  id: uart_electric
+
+obis_d0:
+  id: obis_electric
+  uart_id: uart_electric
+
+status_led:
+  pin:
+    number: GPIO8
+    inverted: true
+
+sensor:
+  - platform: uptime
+    name: Uptime
+
+  - platform: wifi_signal
+    name: WiFi Signal
+
+  - platform: internal_temperature
+    name: Internal Temperature
+
+  - platform: pulse_meter
+    pin: GPIO3
+    internal_filter: 10ms
+    timeout: 90s
+    name: Gas Flow
+    unit_of_measurement: m³/min
+    device_class: volume_flow_rate
+    icon: mdi:gas-burner
+    accuracy_decimals: 4
+    filters:
+      - multiply: 0.01 # 1 pulse per 0.01 m³
+    total:
+      name: Gas Consumption Total
+      unit_of_measurement: m³
+      device_class: gas
+      icon: mdi:meter-gas-outline
+      accuracy_decimals: 2
+      filters:
+        - multiply: 0.01 # 1 pulse per 0.01 m³
+
+  - platform: pulse_meter
+    pin: GPIO4
+    internal_filter: 10ms
+    timeout: 60s
+    name: Water Flow
+    unit_of_measurement: l/min
+    device_class: volume_flow_rate
+    icon: mdi:water
+    accuracy_decimals: 2
+    total:
+      name: Water Consumption Total
+      unit_of_measurement: m³
+      device_class: water
+      icon: mdi:meter-gas-outline
+      accuracy_decimals: 3
+      filters:
+        - multiply: 0.001 # 1 pulse per 0.001 m³
+
+  - platform: obis_d0
+    obis_code: 1-0:1.8.0*255
+    obis_d0_id: obis_electric
+    value_regex: "\\d{6}\\.\\d{8}\\*kWh"
+    name: Electric Consumption Total
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    icon: mdi:transmission-tower-import
+    accuracy_decimals: 8
+    filters:
+      - delta: 0.00000001 # don't repeat unchanged values
+
+  - platform: obis_d0
+    obis_code: 1-0:2.8.0*255
+    obis_d0_id: obis_electric
+    value_regex: "\\d{6}\\.\\d{8}\\*kWh"
+    name: Electric Export Total
+    unit_of_measurement: kWh
+    device_class: energy
+    state_class: total_increasing
+    icon: mdi:transmission-tower-export
+    accuracy_decimals: 8
+    filters:
+      - delta: 0.00000001 # don't repeat unchanged values
+
+  - platform: obis_d0
+    obis_code: 1-0:16.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "-?\\d{6}\\.\\d{2}\\*W"
+    name: Electric Power
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    icon: mdi:meter-electric-outline
+    accuracy_decimals: 2
+
+  - platform: obis_d0
+    obis_code: 1-0:36.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "-?\\d{6}\\.\\d{2}\\*W"
+    name: Electric Power L1
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    icon: mdi:meter-electric-outline
+    accuracy_decimals: 2
+
+  - platform: obis_d0
+    obis_code: 1-0:56.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "-?\\d{6}\\.\\d{2}\\*W"
+    name: Electric Power L2
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    icon: mdi:meter-electric-outline
+    accuracy_decimals: 2
+
+  - platform: obis_d0
+    obis_code: 1-0:76.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "-?\\d{6}\\.\\d{2}\\*W"
+    name: Electric Power L3
+    unit_of_measurement: W
+    device_class: power
+    state_class: measurement
+    icon: mdi:meter-electric-outline
+    accuracy_decimals: 2
+
+  - platform: obis_d0
+    obis_code: 1-0:32.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "\\d{3}\\.\\d{1}\\*V"
+    name: Electric Voltage L1
+    unit_of_measurement: V
+    device_class: voltage
+    state_class: measurement
+    icon: mdi:flash-triangle-outline
+    accuracy_decimals: 1
+
+  - platform: obis_d0
+    obis_code: 1-0:52.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "\\d{3}\\.\\d{1}\\*V"
+    name: Electric Voltage L2
+    unit_of_measurement: V
+    device_class: voltage
+    state_class: measurement
+    icon: mdi:flash-triangle-outline
+    accuracy_decimals: 1
+
+  - platform: obis_d0
+    obis_code: 1-0:72.7.0*255
+    obis_d0_id: obis_electric
+    value_regex: "\\d{3}\\.\\d{1}\\*V"
+    name: Electric Voltage L3
+    unit_of_measurement: V
+    device_class: voltage
+    state_class: measurement
+    icon: mdi:flash-triangle-outline
+    accuracy_decimals: 1
+
+  - platform: obis_d0
+    obis_code: 0-0:96.8.0*255
+    obis_d0_id: obis_electric
+    value_regex: "[0-9a-fA-F]{8}"
+    format: hex
+    name: Electric Time of Operation
+
+  # - platform: obis_d0
+  #   obis_code: 1-0:96.5.0*255
+  #   obis_d0_id: obis_electric
+  #   value_regex: "[0-9a-fA-F]{8}"
+  #   format: hex
+  #   name: Electric Status
+
+text_sensor:
+  - platform: version
+    name: Version
+
+  # TODO: only publish these when changed to avoid unneeded updates
+
+  # - platform: obis_d0
+  #   obis_code: 1-0:0.0.0*255
+  #   obis_d0_id: obis_electric
+  #   name: Electric Owner Identification
+
+  # - platform: obis_d0
+  #   obis_code: 1-0:96.1.0*255
+  #   obis_d0_id: obis_electric
+  #   name: Electric Device Identification
+
+  # - platform: obis_d0
+  #   obis_code: 1-0:96.5.0*255
+  #   obis_d0_id: obis_electric
+  #   name: Electric Status
