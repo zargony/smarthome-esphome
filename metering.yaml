@@ -39,6 +39,7 @@ mqtt:
 
 logger:
   level: DEBUG
+  initial_level: INFO
   logs:
     esp-idf: INFO
 
