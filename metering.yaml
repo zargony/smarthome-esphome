@@ -104,6 +104,15 @@ sensor:
         then:
           - lambda: 'id(gas_counter) = x;'
 
+  - platform: mqtt_subscribe
+    topic: metering/sensor/gas_consumption_total/set
+    id: sensor_set_gas_consumption_total
+    filters:
+      - multiply: 100 # 1 pulse per 0.01 m³
+    on_value:
+      then:
+        - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
+
   - platform: pulse_meter
     pin: GPIO4
     internal_filter: 10ms
@@ -125,6 +134,15 @@ sensor:
       on_raw_value:
         then:
           - lambda: 'id(water_counter) = x;'
+
+  - platform: mqtt_subscribe
+    topic: metering/sensor/water_consumption_total/set
+    id: sensor_set_water_consumption_total
+    filters:
+      - multiply: 1000 # 1 pulse per 0.001 m³
+    on_value:
+      then:
+        - lambda: 'id(sensor_water_flow).set_total_pulses(x);'
 
   - platform: obis_d0
     obis_code: 1-0:1.8.0*255
