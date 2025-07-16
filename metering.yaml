@@ -8,9 +8,22 @@ esp32:
 
 esphome:
   name: metering
+  on_boot:
+    then:
+      - lambda: |-
+          id(sensor_gas_flow).set_total_pulses(id(gas_counter));
+          id(sensor_water_flow).set_total_pulses(id(water_counter));
+
 external_components:
   - source: github://mampfes/esphome_obis_d0@main
 
+globals:
+  - id: gas_counter
+    type: int
+    restore_value: true
+  - id: water_counter
+    type: int
+    restore_value: true
 
 wifi:
   ssid: !secret wifi_ssid
@@ -71,6 +84,7 @@ sensor:
     pin: GPIO3
     internal_filter: 10ms
     timeout: 90s
+    id: sensor_gas_flow
     name: Gas Flow
     unit_of_measurement: m³/min
     device_class: volume_flow_rate
@@ -86,11 +100,15 @@ sensor:
       accuracy_decimals: 2
       filters:
         - multiply: 0.01 # 1 pulse per 0.01 m³
+      on_raw_value:
+        then:
+          - lambda: 'id(gas_counter) = x;'
 
   - platform: pulse_meter
     pin: GPIO4
     internal_filter: 10ms
     timeout: 60s
+    id: sensor_water_flow
     name: Water Flow
     unit_of_measurement: l/min
     device_class: volume_flow_rate
@@ -104,6 +122,9 @@ sensor:
       accuracy_decimals: 3
       filters:
         - multiply: 0.001 # 1 pulse per 0.001 m³
+      on_raw_value:
+        then:
+          - lambda: 'id(water_counter) = x;'
 
   - platform: obis_d0
     obis_code: 1-0:1.8.0*255
