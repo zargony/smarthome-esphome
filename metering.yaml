@@ -94,7 +94,7 @@ sensor:
     filters:
       - multiply: 0.01 # 1 pulse per 0.01 m³
     total:
-      name: Gas Consumption Total
+      name: Gas Import Total
       unit_of_measurement: m³
       device_class: gas
       icon: mdi:meter-gas-outline
@@ -106,8 +106,8 @@ sensor:
           - lambda: 'id(gas_counter) = x;'
 
   - platform: mqtt_subscribe
-    topic: metering/sensor/gas_consumption_total/set
-    id: sensor_set_gas_consumption_total
+    topic: metering/sensor/gas_import_total/set
+    id: sensor_set_gas_import_total
     filters:
       - multiply: 100 # 1 pulse per 0.01 m³
     on_value:
@@ -125,7 +125,7 @@ sensor:
     icon: mdi:water
     accuracy_decimals: 2
     total:
-      name: Water Consumption Total
+      name: Water Import Total
       unit_of_measurement: m³
       device_class: water
       icon: mdi:meter-gas-outline
@@ -137,8 +137,8 @@ sensor:
           - lambda: 'id(water_counter) = x;'
 
   - platform: mqtt_subscribe
-    topic: metering/sensor/water_consumption_total/set
-    id: sensor_set_water_consumption_total
+    topic: metering/sensor/water_import_total/set
+    id: sensor_set_water_import_total
     filters:
       - multiply: 1000 # 1 pulse per 0.001 m³
     on_value:
@@ -149,7 +149,7 @@ sensor:
     obis_code: 1-0:1.8.0*255
     obis_d0_id: obis_electric
     value_regex: "\\d{6}\\.\\d{8}\\*kWh"
-    name: Electric Consumption Total
+    name: Electric Import Total
     unit_of_measurement: kWh
     device_class: energy
     state_class: total_increasing
