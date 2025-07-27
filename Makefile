@@ -1,4 +1,4 @@
-IMAGE := ghcr.io/esphome/esphome:2025.6.3
+IMAGE := ghcr.io/esphome/esphome:2025.7.3
 
 DOCKER := docker
 DOCKER_RUN_OPTS := -it --rm -v $(PWD):/config -v $(PWD)/cache:/cache
