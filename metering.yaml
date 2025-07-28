@@ -10,11 +10,13 @@ esphome:
   name: metering
   on_boot:
     then:
+      # On boot, restore previous counter values
       - lambda: |-
           id(sensor_gas_flow).set_total_pulses(id(gas_counter));
           id(sensor_water_flow).set_total_pulses(id(water_counter));
 
 external_components:
+  # OBIS D0 component for reading electrical meter IR interface
   - source: github://mampfes/esphome_obis_d0@main
 
 globals:
@@ -32,10 +34,15 @@ wifi:
 network:
   enable_ipv6: true
 
+api:
+  encryption:
+    key: !secret api_encryption_key
+  reboot_timeout: 0s # disable automatic reboot when API disconnected
+
 mqtt:
   broker: mqtt.home.zargony.com
-  discover_ip: false
-  discovery: false
+  discover_ip: false # disable Home Assistant automatic device discovery
+  discovery: false # disable Home Assistant automatic entity discovery
 
 logger:
   level: DEBUG
@@ -81,6 +88,8 @@ sensor:
   - platform: internal_temperature
     name: Internal Temperature
 
+  # Gas impulse meter (contact 1)
+  # Note: use `id(sensor_gas_flow).set_total_pulses(x);` to set initial counter value
   - platform: pulse_meter
     pin: GPIO3
     internal_filter: 10ms
@@ -114,6 +123,8 @@ sensor:
       then:
         - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
 
+  # Water impulse meter (contact 2)
+  # Note: use `id(sensor_water_flow).set_total_pulses(x);` to set initial counter value
   - platform: pulse_meter
     pin: GPIO4
     internal_filter: 10ms
@@ -145,6 +156,7 @@ sensor:
       then:
         - lambda: 'id(sensor_water_flow).set_total_pulses(x);'
 
+  # Electric import meter (OBIS D0 via UART interface)
   - platform: obis_d0
     obis_code: 1-0:1.8.0*255
     obis_d0_id: obis_electric
@@ -158,6 +170,7 @@ sensor:
     filters:
       - delta: 0.00000001 # don't repeat unchanged values
 
+  # Electric export meter
   - platform: obis_d0
     obis_code: 1-0:2.8.0*255
     obis_d0_id: obis_electric
@@ -171,6 +184,7 @@ sensor:
     filters:
       - delta: 0.00000001 # don't repeat unchanged values
 
+  # Electric power measurement
   - platform: obis_d0
     obis_code: 1-0:16.7.0*255
     obis_d0_id: obis_electric
@@ -182,6 +196,7 @@ sensor:
     icon: mdi:meter-electric-outline
     accuracy_decimals: 2
 
+  # Electric power measurement (L1)
   - platform: obis_d0
     obis_code: 1-0:36.7.0*255
     obis_d0_id: obis_electric
@@ -193,6 +208,7 @@ sensor:
     icon: mdi:meter-electric-outline
     accuracy_decimals: 2
 
+  # Electric power measurement (L2)
   - platform: obis_d0
     obis_code: 1-0:56.7.0*255
     obis_d0_id: obis_electric
@@ -204,6 +220,7 @@ sensor:
     icon: mdi:meter-electric-outline
     accuracy_decimals: 2
 
+  # Electric power measurement (L3)
   - platform: obis_d0
     obis_code: 1-0:76.7.0*255
     obis_d0_id: obis_electric
@@ -215,6 +232,7 @@ sensor:
     icon: mdi:meter-electric-outline
     accuracy_decimals: 2
 
+  # Electric voltage measurement (L1)
   - platform: obis_d0
     obis_code: 1-0:32.7.0*255
     obis_d0_id: obis_electric
@@ -226,6 +244,7 @@ sensor:
     icon: mdi:flash-triangle-outline
     accuracy_decimals: 1
 
+  # Electric voltage measurement (L2)
   - platform: obis_d0
     obis_code: 1-0:52.7.0*255
     obis_d0_id: obis_electric
@@ -237,6 +256,7 @@ sensor:
     icon: mdi:flash-triangle-outline
     accuracy_decimals: 1
 
+  # Electric voltage measurement (L3)
   - platform: obis_d0
     obis_code: 1-0:72.7.0*255
     obis_d0_id: obis_electric
@@ -248,37 +268,50 @@ sensor:
     icon: mdi:flash-triangle-outline
     accuracy_decimals: 1
 
+  # Electric meter time report
   - platform: obis_d0
     obis_code: 0-0:96.8.0*255
     obis_d0_id: obis_electric
     value_regex: "[0-9a-fA-F]{8}"
     format: hex
     name: Electric Time of Operation
+    filters:
+      - delta: 1 # don't repeat unchanged values
 
-  # - platform: obis_d0
-  #   obis_code: 1-0:96.5.0*255
-  #   obis_d0_id: obis_electric
-  #   value_regex: "[0-9a-fA-F]{8}"
-  #   format: hex
-  #   name: Electric Status
+  # Electric meter status report
+  - platform: obis_d0
+    obis_code: 1-0:96.5.0*255
+    obis_d0_id: obis_electric
+    value_regex: "[0-9a-fA-F]{8}"
+    format: hex
+    name: Electric Status
+    filters:
+      - delta: 1 # don't repeat unchanged values
 
 text_sensor:
   - platform: version
     name: Version
 
-  # TODO: only publish these when changed to avoid unneeded updates
-
+  # # Electric meter owner id
   # - platform: obis_d0
   #   obis_code: 1-0:0.0.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Owner Identification
+  #   filters:
+  #     - TODO: only publish these when changed to avoid unneeded updates
 
+  # # Electric meter device id
   # - platform: obis_d0
   #   obis_code: 1-0:96.1.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Device Identification
+  #   filters:
+  #     - TODO: only publish these when changed to avoid unneeded updates
 
+  # # Electric meter status report
   # - platform: obis_d0
   #   obis_code: 1-0:96.5.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Status
+  #   filters:
+  #     - TODO: only publish these when changed to avoid unneeded updates
