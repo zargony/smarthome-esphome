@@ -1,0 +1,10 @@
+# ESPHome configuration package for WiFi devices -- https://esphome.io/components/
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+sensor:
+  # Wifi signal strength in dBm
+  - platform: wifi_signal
+    name: WiFi Signal

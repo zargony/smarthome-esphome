@@ -1,6 +1,10 @@
 # ESPHome configuration -- https://esphome.io/
 # for energy metering device -- https://github.com/zargony/smarthome-metering
 
+packages:
+  base: !include common/base.yaml
+  wifi: !include common/wifi.yaml
+
 esp32:
   board: esp32-c3-devkitc-02
   framework:
@@ -27,39 +31,6 @@ globals:
     type: int
     restore_value: true
 
-wifi:
-  ssid: !secret wifi_ssid
-  password: !secret wifi_password
-
-network:
-  enable_ipv6: true
-
-api:
-  encryption:
-    key: !secret api_encryption_key
-  reboot_timeout: 0s # disable automatic reboot when API disconnected
-
-mqtt:
-  broker: mqtt.home.zargony.com
-  discover_ip: false # disable Home Assistant automatic device discovery
-  discovery: false # disable Home Assistant automatic entity discovery
-
-logger:
-  level: DEBUG
-  initial_level: INFO
-  logs:
-    esp-idf: INFO
-
-web_server:
-  auth:
-    username: admin
-    password: !secret admin_password
-  local: true
-
-ota:
-  - platform: esphome
-    password: !secret admin_password
-
 uart:
   baud_rate: 9600
   tx_pin: GPIO7
@@ -79,15 +50,6 @@ status_led:
     inverted: true
 
 sensor:
-  - platform: uptime
-    name: Uptime
-
-  - platform: wifi_signal
-    name: WiFi Signal
-
-  - platform: internal_temperature
-    name: Internal Temperature
-
   # Gas impulse meter (contact 1)
   # Note: use `id(sensor_gas_flow).set_total_pulses(x);` to set initial counter value
   - platform: pulse_meter
@@ -114,6 +76,7 @@ sensor:
         then:
           - lambda: 'id(gas_counter) = x;'
 
+  # Allow to set current gas import total via MQTT
   - platform: mqtt_subscribe
     topic: metering/sensor/gas_import_total/set
     id: sensor_set_gas_import_total
@@ -147,6 +110,7 @@ sensor:
         then:
           - lambda: 'id(water_counter) = x;'
 
+  # Allow to set current water import total via MQTT
   - platform: mqtt_subscribe
     topic: metering/sensor/water_import_total/set
     id: sensor_set_water_import_total
@@ -289,9 +253,6 @@ sensor:
       - delta: 1 # don't repeat unchanged values
 
 text_sensor:
-  - platform: version
-    name: Version
-
   # # Electric meter owner id
   # - platform: obis_d0
   #   obis_code: 1-0:0.0.0*255

@@ -1,0 +1,55 @@
+# ESPHome base configuration package -- https://esphome.io/components/
+
+network:
+  # Enable IPv6 support by default
+  enable_ipv6: true
+
+api:
+  # Enable API with encryption
+  encryption:
+    key: !secret api_encryption_key
+  # Disable automatic reboot when API disconnected (when Home Assistant is down)
+  reboot_timeout: 0s
+
+mqtt:
+  broker: mqtt.home.zargony.com
+  # Home Assistant automatic device discovery (listens on MQTT `esphome/discover`
+  # and `esphome/ping/<APP_NAME>`` and responds on `esphome/discover/<APP_NAME>`)
+  discover_ip: false
+  # Home Assistant automatic entity discovery (publish to MQTT `homeassistant/...`)
+  discovery: false
+
+logger:
+  # Compile firmware with debug logging
+  level: DEBUG
+  # Set log level to INFO on boot
+  initial_level: INFO
+  logs:
+    esp-idf: INFO
+
+web_server:
+  # Require authentication for web server
+  auth:
+    username: admin
+    password: !secret admin_password
+  # Serve JavaScript locally allowing it work without internet access
+  local: true
+
+ota:
+  # Enable firmware updates via ESPHome's native protocol (port 3232 on ESP32)
+  - platform: esphome
+    password: !secret admin_password
+
+sensor:
+  # Uptime in seconds
+  - platform: uptime
+    name: Uptime
+
+  # Internal temperature sensor
+  - platform: internal_temperature
+    name: Internal Temperature
+
+text_sensor:
+  # Version number and build date
+  - platform: version
+    name: Version
