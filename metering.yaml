@@ -232,15 +232,20 @@ sensor:
     icon: mdi:flash-triangle-outline
     accuracy_decimals: 1
 
-  # Electric meter time report
+  # Electric meter time of operation
   - platform: obis_d0
     obis_code: 0-0:96.8.0*255
     obis_d0_id: obis_electric
     value_regex: "[0-9a-fA-F]{8}"
     format: hex
-    name: Electric Time of Operation
+    name: Electric Uptime
+    unit_of_measurement: s
+    device_class: duration
+    state_class: total_increasing
+    icon: mdi:timer-outline
     filters:
       - delta: 1 # don't repeat unchanged values
+    entity_category: diagnostic
 
   # Electric meter status report
   - platform: obis_d0
@@ -251,6 +256,7 @@ sensor:
     name: Electric Status
     filters:
       - delta: 1 # don't repeat unchanged values
+    entity_category: diagnostic
 
 text_sensor:
   # # Electric meter owner id
@@ -258,6 +264,8 @@ text_sensor:
   #   obis_code: 1-0:0.0.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Owner Identification
+  #   entity_category: diagnostic
+
   #   filters:
   #     - TODO: only publish these when changed to avoid unneeded updates
 
@@ -266,13 +274,6 @@ text_sensor:
   #   obis_code: 1-0:96.1.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Device Identification
-  #   filters:
-  #     - TODO: only publish these when changed to avoid unneeded updates
-
-  # # Electric meter status report
-  # - platform: obis_d0
-  #   obis_code: 1-0:96.5.0*255
-  #   obis_d0_id: obis_electric
-  #   name: Electric Status
+  #   entity_category: diagnostic
   #   filters:
   #     - TODO: only publish these when changed to avoid unneeded updates
