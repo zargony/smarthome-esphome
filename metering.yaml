@@ -48,6 +48,8 @@ status_led:
   pin:
     number: GPIO8
     inverted: true
+    # Strapping pin used as active-low LED output is ok (LED pulls up input)
+    ignore_strapping_warning: true
 
 sensor:
   # Gas impulse meter (contact 1)
