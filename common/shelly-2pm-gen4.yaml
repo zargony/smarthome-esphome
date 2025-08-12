@@ -1,0 +1,116 @@
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for Shelly 2PM Gen4 devices -- https://kb.shelly.cloud/knowledge-base/shelly-2pm-gen4
+
+# Known GPIOs:
+# - GPIO1: ESP_DBG_UART (Header Pin 1)
+# - GPIO3: Relay 2 (active high)
+# - GPIO4: NTC Temperature sensor
+# - GPIO5: Relay 1 (active high)
+# - GPIO6: I2C SDA
+# - GPIO7: I2C SCL
+# - GPIO8: strapping pin, pulled up
+# - GPIO9: BOOT0 (Header Pin 6, active low)
+# - GPIO10: Switch 2 (active high)
+# - GPIO11: Switch 1 (active high)
+# - GPIO12: Button (active low, normally USB_D-)
+# - GPIO15: strapping pin, pulled low
+# - GPIO16: U0TXD (Header Pin 2)
+# - GPIO17: U0RXD (Header Pin 3)
+# - GPIO18: LED (active low)
+#
+# Unknown/unused GPIOs:
+# - GPIO0: (low)
+# - GPIO2: (high)
+# - GPIO13: (low, normally USB_D+)
+# - GPIO14: (low)
+# - GPIO19: (high)
+# - GPIO20: (low)
+# - GPIO21: (low)
+# - GPIO22: (low)
+# - GPIO23: (low)
+#
+# TODO: Are ADE7953 IRQ and RST connected to GPIOs like in Gen3?
+
+esp32:
+  board: esp32-c6-devkitm-1
+  flash_size: 8MB
+  variant: esp32c6
+  framework:
+    type: esp-idf
+
+# FIXME: Workaround for ESP32-C6 ADC issue, see https://github.com/esphome/issues/issues/5363
+external_components:
+  - source: github://PhracturedBlue/c6_adc
+
+logger:
+  # ESP32-C6 uses USB CDC for logging by default, but Shelly devices don't have USB
+  hardware_uart: UART0
+
+i2c:
+  sda: GPIO6
+  scl: GPIO7
+
+status_led:
+  pin:
+    number: GPIO18
+    inverted: true
+
+sensor:
+  # NTC temperature sensor near output relays
+  - platform: c6_adc
+    pin: GPIO4
+    update_interval: 10s
+    id: sensor_ntc_adc
+  - platform: resistance
+    sensor: sensor_ntc_adc
+    configuration: DOWNSTREAM
+    resistor: 5.6kOhm
+    id: sensor_ntc_resistance
+  - platform: ntc
+    sensor: sensor_ntc_resistance
+    calibration:
+      b_constant: 3350
+      reference_resistance: 4.7kOhm
+      reference_temperature: 298.15K
+    name: Device Temperature
+    entity_category: diagnostic
+  - platform: ade7953_i2c
+    voltage:
+      name: Voltage
+    current_a:
+      name: Output 2 Current
+    active_power_a:
+      name: Output 2 Power
+    current_b:
+      name: Output 1 Current
+    active_power_b:
+      name: Output 1 Power
+    update_interval: 10s
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO12
+      inverted: true
+    id: button
+    filters:
+      - delayed_on_off: 10ms
+  - platform: gpio
+    pin: GPIO11
+    id: switch_1
+    filters:
+      - delayed_on_off: 50ms
+  - platform: gpio
+    pin: GPIO10
+    id: switch_2
+    filters:
+      - delayed_on_off: 50ms
+
+output:
+    # Note: for shutters, O1 is typically opening, O2 typically closing
+  - platform: gpio
+    id: relay_1
+    pin: GPIO5
+  - platform: gpio
+    id: relay_2
+    pin: GPIO3
