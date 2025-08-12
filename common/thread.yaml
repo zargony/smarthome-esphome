@@ -1,0 +1,30 @@
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for Thread devices
+
+openthread:
+  # FTD (full thread device) or MTD (minimal thread device)
+  # Note: switching back from MTD to FTD requires clearing NVS
+  device_type: FTD
+  tlv: !secret thread_tlv
+
+network:
+  enable_ipv6: true
+
+text_sensor:
+  - platform: openthread_info
+    # ip_address:
+    #   name: Thread IP Address
+    role:
+      name: Thread Role
+    rloc16:
+      name: Thread RLOC16
+    ext_addr:
+      name: Thread Extended Address
+    # eui64:
+    #   name: Thread EUI64
+    # channel:
+    #   name: Thread Channel
+    # network_name:
+    #   name: Thread Network Name
+    # pan_id:
+    #   name: Thread PAN ID
