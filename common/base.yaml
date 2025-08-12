@@ -1,4 +1,5 @@
-# ESPHome base configuration package -- https://esphome.io/components/
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# Base configuration for all devices
 
 network:
   # Enable IPv6 support by default

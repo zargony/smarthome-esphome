@@ -1,10 +1,36 @@
-# ESPHome configuration package for WiFi devices -- https://esphome.io/components/
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for WiFi devices
 
 wifi:
   ssid: !secret wifi_ssid
   password: !secret wifi_password
 
 sensor:
-  # Wifi signal strength in dBm
+  # WiFi signal strength in dBm
   - platform: wifi_signal
     name: WiFi Signal
+
+# text_sensor:
+#   - platform: wifi_info
+#     # ip_address:
+#     #   name: WiFi IP Address
+#     #   address_0:
+#     #     name: WiFi IP Address 0
+#     #   address_1:
+#     #     name: WiFi IP Address 1
+#     #   address_2:
+#     #     name: WiFi IP Address 2
+#     #   address_3:
+#     #     name: WiFi IP Address 3
+#     #   address_4:
+#     #     name: WiFi IP Address 4
+#     # ssid:
+#     #   name: WiFi SSID
+#     bssid:
+#       name: WiFi BSSID
+#     # mac_address:
+#     #   name: WiFi MAC Address
+#     # scan_results:
+#     #   name: WiFi Latest Scan Results
+#     # dns_address:
+#     #   name: WiFi DNS Address
