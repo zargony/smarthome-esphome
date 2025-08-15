@@ -93,10 +93,20 @@ sensor:
   - platform: ade7953_i2c
     voltage:
       name: Voltage
+    frequency:
+      name: Frequency
     current_a:
       name: Output 2 Current
     current_b:
       name: Output 1 Current
+    power_factor_a:
+      name: Output 2 Power Factor
+    power_factor_b:
+      name: Output 1 Power Factor
+    apparent_power_a:
+      name: Output 2 Apparent Power
+    apparent_power_b:
+      name: Output 1 Apparent Power
     active_power_a:
       name: Output 2 Active Power
       on_value_range:
@@ -115,6 +125,10 @@ sensor:
             - logger.log:
                 format: "OVERPOWER DETECTED, turning off output 1"
                 level: WARN
+    reactive_power_a:
+      name: Output 2 Reactive Power
+    reactive_power_b:
+      name: Output 1 Reactive Power
     update_interval: 10s
 
 binary_sensor:
