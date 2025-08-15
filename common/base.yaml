@@ -44,13 +44,16 @@ ota:
 sensor:
   # Uptime in seconds
   - platform: uptime
+    id: sensor_uptime
     name: Uptime
 
   # Internal temperature sensor
   - platform: internal_temperature
+    id: sensor_internal_temperature
     name: Internal Temperature
 
 text_sensor:
   # Version number and build date
   - platform: version
+    id: sensor_version
     name: Version
