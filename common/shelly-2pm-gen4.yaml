@@ -31,6 +31,13 @@
 #
 # TODO: Are ADE7953 IRQ and RST connected to GPIOs like in Gen3?
 
+substitutions:
+  # Max power to allow on outputs (W). Higher power will trip the protection.
+  max_power: 3600.0
+  # Max temperature to allow (°C). Higher temperature will trip the protection.
+  # Note: Most examples use 80.0, but we're setting it lower for additional safety.
+  max_temperature: 60.0
+
 esp32:
   board: esp32-c6-devkitm-1
   flash_size: 8MB
@@ -74,18 +81,40 @@ sensor:
       b_constant: 3350
       reference_resistance: 4.7kOhm
       reference_temperature: 298.15K
+    on_value_range:
+      - above: ${max_temperature}
+        then:
+          - output.turn_off: output_1
+          - output.turn_off: output_2
+          - logger.log:
+              format: "OVERHEAT DETECTED, turning off all outputs"
+              level: WARN
 
   - platform: ade7953_i2c
     voltage:
       name: Voltage
     current_a:
       name: Output 2 Current
-    active_power_a:
-      name: Output 2 Power
     current_b:
       name: Output 1 Current
+    active_power_a:
+      name: Output 2 Active Power
+      on_value_range:
+        - above: ${max_power}
+          then:
+            - output.turn_off: output_2
+            - logger.log:
+                format: "OVERPOWER DETECTED, turning off output 2"
+                level: WARN
     active_power_b:
-      name: Output 1 Power
+      name: Output 1 Active Power
+      on_value_range:
+        - above: ${max_power}
+          then:
+            - output.turn_off: output_1
+            - logger.log:
+                format: "OVERPOWER DETECTED, turning off output 1"
+                level: WARN
     update_interval: 10s
 
 binary_sensor:
@@ -98,20 +127,20 @@ binary_sensor:
       - delayed_on_off: 10ms
   - platform: gpio
     pin: GPIO11
-    id: switch_1
+    id: input_1
     filters:
       - delayed_on_off: 50ms
   - platform: gpio
     pin: GPIO10
-    id: switch_2
+    id: input_2
     filters:
       - delayed_on_off: 50ms
 
 output:
     # Note: for shutters, O1 is typically opening, O2 typically closing
   - platform: gpio
-    id: relay_1
+    id: output_1
     pin: GPIO5
   - platform: gpio
-    id: relay_2
+    id: output_2
     pin: GPIO3
