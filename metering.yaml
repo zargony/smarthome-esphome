@@ -53,7 +53,6 @@ status_led:
 
 sensor:
   # Gas impulse meter (contact 1)
-  # Note: use `id(sensor_gas_flow).set_total_pulses(x);` to set initial counter value
   - platform: pulse_meter
     pin: GPIO3
     internal_filter: 10ms
@@ -89,7 +88,6 @@ sensor:
         - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
 
   # Water impulse meter (contact 2)
-  # Note: use `id(sensor_water_flow).set_total_pulses(x);` to set initial counter value
   - platform: pulse_meter
     pin: GPIO4
     internal_filter: 10ms
