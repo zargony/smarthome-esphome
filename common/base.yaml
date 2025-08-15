@@ -51,6 +51,7 @@ sensor:
   - platform: internal_temperature
     id: sensor_internal_temperature
     name: Internal Temperature
+    entity_category: diagnostic
 
 text_sensor:
   # Version number and build date

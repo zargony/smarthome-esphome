@@ -66,14 +66,15 @@ sensor:
     configuration: DOWNSTREAM
     resistor: 5.6kOhm
     id: sensor_ntc_resistance
-  - platform: ntc
+  # Change internal temperature sensor to use NTC temperature sensor
+  - id: !extend sensor_internal_temperature
+    platform: ntc
     sensor: sensor_ntc_resistance
     calibration:
       b_constant: 3350
       reference_resistance: 4.7kOhm
       reference_temperature: 298.15K
-    name: Device Temperature
-    entity_category: diagnostic
+
   - platform: ade7953_i2c
     voltage:
       name: Voltage
