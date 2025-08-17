@@ -32,9 +32,9 @@
 # TODO: Are ADE7953 IRQ and RST connected to GPIOs like in Gen3?
 
 substitutions:
-  # Max power to allow on outputs (W). Higher power will trip the protection.
-  max_power: 3600.0
-  # Max temperature to allow (°C). Higher temperature will trip the protection.
+  # Max current (A) to allow per output. Higher current will trip the protection.
+  max_current: 10.0
+  # Max temperature (°C) to allow. Higher temperature will trip the protection.
   # Note: Most examples use 80.0, but we're setting it lower for additional safety.
   max_temperature: 60.0
 
@@ -87,7 +87,7 @@ sensor:
           - output.turn_off: output_1
           - output.turn_off: output_2
           - logger.log:
-              format: "OVERHEAT DETECTED, turning off all outputs"
+              format: "OVERHEAT DETECTED, turned off all outputs"
               level: WARN
 
   - platform: ade7953_i2c
@@ -97,8 +97,22 @@ sensor:
       name: Frequency
     current_a:
       name: Output 2 Current
+      on_value_range:
+        - above: ${max_current}
+          then:
+            - output.turn_off: output_2
+            - logger.log:
+                format: "OVERCURRENT DETECTED, turned off output 2"
+                level: WARN
     current_b:
       name: Output 1 Current
+      on_value_range:
+        - above: ${max_current}
+          then:
+            - output.turn_off: output_1
+            - logger.log:
+                format: "OVERCURRENT DETECTED, turned off output 1"
+                level: WARN
     power_factor_a:
       name: Output 2 Power Factor
     power_factor_b:
@@ -109,22 +123,8 @@ sensor:
       name: Output 1 Apparent Power
     active_power_a:
       name: Output 2 Active Power
-      on_value_range:
-        - above: ${max_power}
-          then:
-            - output.turn_off: output_2
-            - logger.log:
-                format: "OVERPOWER DETECTED, turning off output 2"
-                level: WARN
     active_power_b:
       name: Output 1 Active Power
-      on_value_range:
-        - above: ${max_power}
-          then:
-            - output.turn_off: output_1
-            - logger.log:
-                format: "OVERPOWER DETECTED, turning off output 1"
-                level: WARN
     reactive_power_a:
       name: Output 2 Reactive Power
     reactive_power_b:
