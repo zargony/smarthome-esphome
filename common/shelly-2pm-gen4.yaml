@@ -84,8 +84,8 @@ sensor:
     on_value_range:
       - above: ${max_temperature}
         then:
-          - output.turn_off: output_1
-          - output.turn_off: output_2
+          - output.turn_off: relay_1
+          - output.turn_off: relay_2
           - logger.log:
               format: "OVERHEAT DETECTED, turned off all outputs"
               level: WARN
@@ -100,7 +100,7 @@ sensor:
       on_value_range:
         - above: ${max_current}
           then:
-            - output.turn_off: output_2
+            - output.turn_off: relay_2
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
@@ -109,7 +109,7 @@ sensor:
       on_value_range:
         - above: ${max_current}
           then:
-            - output.turn_off: output_1
+            - output.turn_off: relay_1
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
@@ -141,20 +141,20 @@ binary_sensor:
       - delayed_on_off: 10ms
   - platform: gpio
     pin: GPIO11
-    id: input_1
+    id: switch_1
     filters:
       - delayed_on_off: 50ms
   - platform: gpio
     pin: GPIO10
-    id: input_2
+    id: switch_2
     filters:
       - delayed_on_off: 50ms
 
 output:
     # Note: for shutters, O1 is typically opening, O2 typically closing
   - platform: gpio
-    id: output_1
+    id: relay_1
     pin: GPIO5
   - platform: gpio
-    id: output_2
+    id: relay_2
     pin: GPIO3
