@@ -1,0 +1,26 @@
+# ESPHome configuration -- https://esphome.io/
+
+packages:
+  board: !include common/shelly-1pm-gen4.yaml
+  base: !include common/base.yaml
+  thread: !include common/thread.yaml
+
+esphome:
+  name: light-office
+
+binary_sensor:
+  # Turn on/off light with latching switch, but maintain on/off positions
+  - id: !extend switch_1
+    on_press:
+      then:
+        - light.turn_on: light_1
+    on_release:
+      then:
+        - light.turn_off: light_1
+
+light:
+  - platform: binary
+    output: relay_1
+    id: light_1
+    name: Light
+    restore_mode: ALWAYS_OFF
