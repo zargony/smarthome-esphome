@@ -63,7 +63,7 @@ status_led:
     inverted: true
 
 sensor:
-  # NTC temperature sensor near output relay
+  # Internal NTC temperature sensor
   - platform: c6_adc
     pin: GPIO3
     update_interval: 10s

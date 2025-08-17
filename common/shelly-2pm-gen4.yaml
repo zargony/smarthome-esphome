@@ -63,7 +63,7 @@ status_led:
     inverted: true
 
 sensor:
-  # NTC temperature sensor near output relays
+  # Internal NTC temperature sensor
   - platform: c6_adc
     pin: GPIO4
     update_interval: 10s
@@ -71,7 +71,7 @@ sensor:
   - platform: resistance
     sensor: sensor_ntc_adc
     configuration: DOWNSTREAM
-    resistor: 5.6kOhm
+    resistor: 10kOhm
     id: sensor_ntc_resistance
   # Change internal temperature sensor to use NTC temperature sensor
   - id: !extend sensor_internal_temperature
@@ -79,8 +79,8 @@ sensor:
     sensor: sensor_ntc_resistance
     calibration:
       b_constant: 3350
-      reference_resistance: 4.7kOhm
-      reference_temperature: 298.15K
+      reference_resistance: 10kOhm
+      reference_temperature: 298.15K # 25°C
     on_value_range:
       - above: ${max_temperature}
         then:
@@ -151,7 +151,7 @@ binary_sensor:
       - delayed_on_off: 50ms
 
 output:
-    # Note: for shutters, O1 is typically opening, O2 typically closing
+  # Note: for shutters, O1 is typically opening, O2 typically closing
   - platform: gpio
     id: relay_1
     pin: GPIO5
