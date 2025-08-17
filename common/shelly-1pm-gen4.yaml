@@ -1,0 +1,132 @@
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for Shelly 1PM Gen4 devices -- https://kb.shelly.cloud/knowledge-base/shelly-1pm-gen4
+
+# Known GPIOs:
+# - GPIO1: Button (active low)
+# - GPIO3: NTC Temperature sensor
+# - GPIO4: Relay (active high)
+# - GPIO6: BL0942 Tx
+# - GPIO7: BL0942 Rx
+# - GPIO8: strapping pin, pulled up
+# - GPIO9: BOOT0 (Header Pin 6, active low)
+# - GPIO10: Switch (active high)
+# - GPIO11: LED (active low)
+# - GPIO12: ESP_DBG_UART (Header Pin 1, normally USB_D-)
+# - GPIO15: strapping pin, pulled low
+# - GPIO16: U0TXD (Header Pin 2)
+# - GPIO17: U0RXD (Header Pin 3)
+#
+# Unknown/unused GPIOs:
+# - GPIO0: (~0.7V when off, ~1.3V when on)
+# - GPIO2: (high)
+# - GPIO5: (low)
+# - GPIO13: (low, normally USB_D+)
+# - GPIO14: (low)
+# - GPIO18: (low)
+# - GPIO19: (low, high on 2PM)
+# - GPIO20: (low)
+# - GPIO21: (low)
+# - GPIO22: (low)
+# - GPIO23: (low)
+
+substitutions:
+  # Max current (A) to allow on output. Higher current will trip the protection.
+  max_current: 16.0
+  # Max temperature (°C) to allow. Higher temperature will trip the protection.
+  # Note: Most examples use 80.0, but we're setting it lower for additional safety.
+  max_temperature: 60.0
+
+esp32:
+  board: esp32-c6-devkitm-1
+  flash_size: 8MB
+  variant: esp32c6
+  framework:
+    type: esp-idf
+
+# FIXME: Workaround for ESP32-C6 ADC issue, see https://github.com/esphome/issues/issues/5363
+external_components:
+  - source: github://PhracturedBlue/c6_adc
+
+logger:
+  # ESP32-C6 uses USB CDC for logging by default, but Shelly devices don't have USB
+  hardware_uart: UART0
+
+uart:
+  baud_rate: 9600
+  tx_pin: GPIO6
+  rx_pin: GPIO7
+  id: uart_bl0942
+
+status_led:
+  pin:
+    number: GPIO11
+    inverted: true
+
+sensor:
+  # NTC temperature sensor near output relay
+  - platform: c6_adc
+    pin: GPIO3
+    update_interval: 10s
+    id: sensor_ntc_adc
+  - platform: resistance
+    sensor: sensor_ntc_adc
+    configuration: DOWNSTREAM
+    resistor: 10kOhm
+    id: sensor_ntc_resistance
+  # Change internal temperature sensor to use NTC temperature sensor
+  - id: !extend sensor_internal_temperature
+    platform: ntc
+    sensor: sensor_ntc_resistance
+    calibration:
+      b_constant: 3350
+      reference_resistance: 10kOhm
+      reference_temperature: 298.15K # 25°C
+    on_value_range:
+      - above: ${max_temperature}
+        then:
+          - output.turn_off: output_1
+          - logger.log:
+              format: "OVERHEAT DETECTED, turned off output"
+              level: WARN
+
+  - platform: bl0942
+    voltage:
+      name: Voltage
+    current:
+      name: Output Current
+      on_value_range:
+        - above: ${max_current}
+          then:
+            - output.turn_off: output_1
+            - logger.log:
+                format: "OVERCURRENT DETECTED, turned off output"
+                level: WARN
+    power:
+      name: Output Power
+    energy:
+      name: Output Energy
+    frequency:
+      name: Frequency
+      accuracy_decimals: 2
+    update_interval: 10s
+    uart_id: uart_bl0942
+    line_frequency: 50Hz
+
+binary_sensor:
+  - platform: gpio
+    pin:
+      number: GPIO1
+      inverted: true
+    id: button
+    filters:
+      - delayed_on_off: 10ms
+  - platform: gpio
+    pin: GPIO10
+    id: input_1
+    filters:
+      - delayed_on_off: 50ms
+
+output:
+  - platform: gpio
+    id: output_1
+    pin: GPIO4
