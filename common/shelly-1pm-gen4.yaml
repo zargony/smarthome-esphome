@@ -33,8 +33,7 @@ substitutions:
   # Max current (A) to allow on output. Higher current will trip the protection.
   max_current: 16.0
   # Max temperature (°C) to allow. Higher temperature will trip the protection.
-  # Note: Most examples use 80.0, but we're setting it lower for additional safety.
-  max_temperature: 60.0
+  max_temperature: 80.0
 
 esp32:
   board: esp32-c6-devkitm-1
