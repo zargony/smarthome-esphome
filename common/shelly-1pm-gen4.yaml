@@ -36,9 +36,8 @@ substitutions:
   max_temperature: 80.0
 
 esp32:
-  board: esp32-c6-devkitm-1
-  flash_size: 8MB
   variant: esp32c6
+  flash_size: 8MB
   framework:
     type: esp-idf
 

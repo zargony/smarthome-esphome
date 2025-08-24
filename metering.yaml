@@ -6,7 +6,7 @@ packages:
   wifi: !include common/wifi.yaml
 
 esp32:
-  board: esp32-c3-devkitc-02
+  variant: esp32c3
   framework:
     type: esp-idf
 
