@@ -35,6 +35,7 @@ web_server:
     password: !secret admin_password
   # Serve JavaScript locally allowing it work without internet access
   local: true
+  version: 3
 
 ota:
   # Enable firmware updates via ESPHome's native protocol (port 3232 on ESP32)
