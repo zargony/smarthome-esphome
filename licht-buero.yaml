@@ -6,7 +6,8 @@ packages:
   thread: !include common/thread.yaml
 
 esphome:
-  name: light-office
+  name: licht-buero
+  friendly_name: Licht Büro
 
 binary_sensor:
   # Turn on/off light with latching switch, but maintain on/off positions
