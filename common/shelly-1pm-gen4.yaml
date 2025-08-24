@@ -92,7 +92,7 @@ sensor:
     voltage:
       name: Voltage
     current:
-      name: Output Current
+      name: Current
       on_value_range:
         - above: ${max_current}
           then:
@@ -101,9 +101,9 @@ sensor:
                 format: "OVERCURRENT DETECTED, turned off output"
                 level: WARN
     power:
-      name: Output Power
+      name: Power
     energy:
-      name: Output Energy
+      name: Energy
     frequency:
       name: Frequency
       accuracy_decimals: 2

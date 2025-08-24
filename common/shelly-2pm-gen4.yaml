@@ -95,7 +95,7 @@ sensor:
     frequency:
       name: Frequency
     current_a:
-      name: Output 2 Current
+      name: Current 2
       on_value_range:
         - above: ${max_current}
           then:
@@ -104,7 +104,7 @@ sensor:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
     current_b:
-      name: Output 1 Current
+      name: Current 1
       on_value_range:
         - above: ${max_current}
           then:
@@ -113,21 +113,21 @@ sensor:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
     power_factor_a:
-      name: Output 2 Power Factor
+      name: Power Factor 2
     power_factor_b:
-      name: Output 1 Power Factor
+      name: Power Factor 1
     apparent_power_a:
-      name: Output 2 Apparent Power
+      name: Apparent Power 2
     apparent_power_b:
-      name: Output 1 Apparent Power
+      name: Apparent Power 1
     active_power_a:
-      name: Output 2 Active Power
+      name: Active Power 2
     active_power_b:
-      name: Output 1 Active Power
+      name: Active Power 1
     reactive_power_a:
-      name: Output 2 Reactive Power
+      name: Reactive Power 2
     reactive_power_b:
-      name: Output 1 Reactive Power
+      name: Reactive Power 1
     update_interval: 10s
 
 binary_sensor:
