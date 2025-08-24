@@ -12,6 +12,7 @@ esp32:
 
 esphome:
   name: metering
+  friendly_name: Energiezähler
   on_boot:
     then:
       # On boot, restore previous counter values
