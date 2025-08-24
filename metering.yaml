@@ -71,12 +71,12 @@ sensor:
     timeout: 90s
     id: sensor_gas_flow
     name: Gas Flow
-    unit_of_measurement: m³/min
+    unit_of_measurement: l/min
     device_class: volume_flow_rate
     icon: mdi:gas-burner
-    accuracy_decimals: 4
+    accuracy_decimals: 2
     filters:
-      - multiply: 0.01 # 1 pulse per 0.01 m³
+      - multiply: 10 # 1 pulse per 0.01 m³
     web_server:
       sorting_group_id: sorting_group_gas
     total:
