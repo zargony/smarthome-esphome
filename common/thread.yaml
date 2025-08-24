@@ -10,6 +10,10 @@ openthread:
 network:
   enable_ipv6: true
 
+web_server:
+  # Safe bandwidth by not serving static files via Thread
+  local: false
+
 text_sensor:
   - platform: openthread_info
     # ip_address:
