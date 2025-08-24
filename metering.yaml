@@ -107,7 +107,7 @@ sensor:
   - platform: pulse_meter
     pin: GPIO4
     internal_filter: 10ms
-    timeout: 60s
+    timeout: 30s
     id: sensor_water_flow
     name: Water Flow
     unit_of_measurement: l/min
