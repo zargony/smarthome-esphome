@@ -18,17 +18,25 @@ text_sensor:
   - platform: openthread_info
     # ip_address:
     #   name: Thread IP Address
+    #   icon: mdi:antenna
     role:
       name: Thread Role
+      icon: mdi:antenna
     rloc16:
       name: Thread RLOC16
+      icon: mdi:antenna
     ext_addr:
       name: Thread Extended Address
+      icon: mdi:antenna
     # eui64:
     #   name: Thread EUI64
+    #   icon: mdi:antenna
     # channel:
     #   name: Thread Channel
+    #   icon: mdi:antenna
     # network_name:
     #   name: Thread Network Name
+    #   icon: mdi:antenna
     # pan_id:
     #   name: Thread PAN ID
+    #   icon: mdi:antenna

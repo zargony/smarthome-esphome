@@ -90,8 +90,10 @@ sensor:
   - platform: bl0942
     voltage:
       name: Voltage
+      icon: mdi:sine-wave
     current:
       name: Current
+      icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
           then:
@@ -101,10 +103,13 @@ sensor:
                 level: WARN
     power:
       name: Power
+      icon: mdi:flash
     energy:
       name: Energy
+      icon: mdi:meter-electric-outline
     frequency:
       name: Frequency
+      icon: mdi:sine-wave
       accuracy_decimals: 2
     update_interval: 10s
     uart_id: uart_bl0942

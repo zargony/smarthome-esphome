@@ -184,7 +184,7 @@ sensor:
     unit_of_measurement: W
     device_class: power
     state_class: measurement
-    icon: mdi:meter-electric-outline
+    icon: mdi:flash
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
@@ -198,7 +198,7 @@ sensor:
     unit_of_measurement: W
     device_class: power
     state_class: measurement
-    icon: mdi:meter-electric-outline
+    icon: mdi:flash
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
@@ -212,7 +212,7 @@ sensor:
     unit_of_measurement: W
     device_class: power
     state_class: measurement
-    icon: mdi:meter-electric-outline
+    icon: mdi:flash
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
@@ -226,7 +226,7 @@ sensor:
     unit_of_measurement: W
     device_class: power
     state_class: measurement
-    icon: mdi:meter-electric-outline
+    icon: mdi:flash
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
@@ -240,7 +240,7 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     state_class: measurement
-    icon: mdi:flash-triangle-outline
+    icon: mdi:sine-wave
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
@@ -254,7 +254,7 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     state_class: measurement
-    icon: mdi:flash-triangle-outline
+    icon: mdi:sine-wave
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
@@ -268,7 +268,7 @@ sensor:
     unit_of_measurement: V
     device_class: voltage
     state_class: measurement
-    icon: mdi:flash-triangle-outline
+    icon: mdi:sine-wave
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
@@ -295,6 +295,7 @@ sensor:
     value_regex: "[0-9a-fA-F]{8}"
     format: hex
     name: Electric Status
+    icon: mdi:information-outline
     filters:
       - delta: 1 # don't repeat unchanged values
     entity_category: diagnostic
@@ -305,8 +306,8 @@ text_sensor:
   #   obis_code: 1-0:0.0.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Owner Identification
+  #   icon: mdi:information-outline
   #   entity_category: diagnostic
-
   #   filters:
   #     - TODO: only publish these when changed to avoid unneeded updates
 
@@ -315,6 +316,7 @@ text_sensor:
   #   obis_code: 1-0:96.1.0*255
   #   obis_d0_id: obis_electric
   #   name: Electric Device Identification
+  #   icon: mdi:information-outline
   #   entity_category: diagnostic
   #   filters:
   #     - TODO: only publish these when changed to avoid unneeded updates
