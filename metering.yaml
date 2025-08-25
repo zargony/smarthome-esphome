@@ -154,6 +154,7 @@ sensor:
     accuracy_decimals: 8
     filters:
       - delta: 0.00000001 # don't repeat unchanged values
+      - throttle: 10s # report at most every 10s
     web_server:
       sorting_group_id: sorting_group_electric
 
@@ -170,6 +171,7 @@ sensor:
     accuracy_decimals: 8
     filters:
       - delta: 0.00000001 # don't repeat unchanged values
+      - throttle: 10s # report at most every 10s
     web_server:
       sorting_group_id: sorting_group_electric
 
