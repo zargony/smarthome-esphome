@@ -11,7 +11,7 @@ network:
   enable_ipv6: true
 
 web_server:
-  # Safe bandwidth by not serving static files via Thread
+  # Save bandwidth by not serving static files via Thread
   local: false
 
 text_sensor:
