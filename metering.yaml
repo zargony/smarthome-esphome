@@ -72,7 +72,7 @@ sensor:
     timeout: 90s
     id: sensor_gas_flow
     name: Gas Flow
-    unit_of_measurement: l/min
+    unit_of_measurement: L/min
     device_class: volume_flow_rate
     icon: mdi:gas-burner
     accuracy_decimals: 2
@@ -111,7 +111,7 @@ sensor:
     timeout: 30s
     id: sensor_water_flow
     name: Water Flow
-    unit_of_measurement: l/min
+    unit_of_measurement: L/min
     device_class: volume_flow_rate
     icon: mdi:water
     accuracy_decimals: 2
