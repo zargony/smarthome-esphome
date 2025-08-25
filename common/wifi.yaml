@@ -11,38 +11,38 @@ sensor:
     name: WiFi Signal
     icon: mdi:wifi
 
-# text_sensor:
-#   - platform: wifi_info
-#     # ip_address:
-#     #   name: WiFi IP Address
-#     #   icon: mdi:wifi
-#     #   address_0:
-#     #     name: WiFi IP Address 0
-#     #     icon: mdi:wifi
-#     #   address_1:
-#     #     name: WiFi IP Address 1
-#     #     icon: mdi:wifi
-#     #   address_2:
-#     #     name: WiFi IP Address 2
-#     #     icon: mdi:wifi
-#     #   address_3:
-#     #     name: WiFi IP Address 3
-#     #     icon: mdi:wifi
-#     #   address_4:
-#     #     name: WiFi IP Address 4
-#     #     icon: mdi:wifi
-#     # ssid:
-#     #   name: WiFi SSID
-#     #   icon: mdi:wifi
-#     bssid:
-#       name: WiFi BSSID
-#       icon: mdi:wifi
-#     # mac_address:
-#     #   name: WiFi MAC Address
-#     #   icon: mdi:wifi
-#     # scan_results:
-#     #   name: WiFi Latest Scan Results
-#     #   icon: mdi:wifi
-#     # dns_address:
-#     #   name: WiFi DNS Address
-#     #   icon: mdi:wifi
+text_sensor:
+  - platform: wifi_info
+    # ip_address:
+    #   name: WiFi IP Address
+    #   icon: mdi:wifi
+    #   address_0:
+    #     name: WiFi IP Address 0
+    #     icon: mdi:wifi
+    #   address_1:
+    #     name: WiFi IP Address 1
+    #     icon: mdi:wifi
+    #   address_2:
+    #     name: WiFi IP Address 2
+    #     icon: mdi:wifi
+    #   address_3:
+    #     name: WiFi IP Address 3
+    #     icon: mdi:wifi
+    #   address_4:
+    #     name: WiFi IP Address 4
+    #     icon: mdi:wifi
+    # ssid:
+    #   name: WiFi SSID
+    #   icon: mdi:wifi
+    bssid:
+      name: WiFi BSSID
+      icon: mdi:wifi
+    # mac_address:
+    #   name: WiFi MAC Address
+    #   icon: mdi:wifi
+    # scan_results:
+    #   name: WiFi Latest Scan Results
+    #   icon: mdi:wifi
+    # dns_address:
+    #   name: WiFi DNS Address
+    #   icon: mdi:wifi
