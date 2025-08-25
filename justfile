@@ -5,7 +5,7 @@ docker_run_opts := "-it --rm -v .:/config -v ./cache:/cache"
 
 # List available recipes
 default:
-    @{{just_executable()}} --list --justfile {{justfile()}}
+    @{{just_executable()}} --list --justfile {{quote(justfile())}}
 
 # Display ESPHome CLI help
 help:
