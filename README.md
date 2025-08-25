@@ -2,6 +2,10 @@
 
 Configuration of devices running ESPHome in my Smart Home.
 
+## Usage
+
+Run [`just`](https://just.systems/) to see a list of available commands. ESPHome compile is run via [Docker](https://www.docker.com/). To flash via local serial connection, [esptool](https://docs.espressif.com/projects/esptool) is needed.
+
 ## Devices
 
 ### Lights (`licht-*.yaml`)
