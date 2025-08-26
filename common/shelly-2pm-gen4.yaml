@@ -96,7 +96,7 @@ sensor:
       name: Frequency
       icon: mdi:sine-wave
     current_a:
-      name: Current 2
+      name: Current 1
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -106,7 +106,7 @@ sensor:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
     current_b:
-      name: Current 1
+      name: Current 2
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -116,29 +116,39 @@ sensor:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
     power_factor_a:
-      name: Power Factor 2
-      icon: mdi:percent-outline
-    power_factor_b:
       name: Power Factor 1
       icon: mdi:percent-outline
+      filters:
+        - multiply: -1
+    power_factor_b:
+      name: Power Factor 2
+      icon: mdi:percent-outline
+      filters:
+        - multiply: -1
     apparent_power_a:
-      name: Apparent Power 2
-      icon: mdi:flash
-    apparent_power_b:
       name: Apparent Power 1
       icon: mdi:flash
-    active_power_a:
-      name: Active Power 2
+    apparent_power_b:
+      name: Apparent Power 2
       icon: mdi:flash
-    active_power_b:
+    active_power_a:
       name: Active Power 1
       icon: mdi:flash
-    reactive_power_a:
-      name: Reactive Power 2
+      filters:
+        - multiply: -1
+    active_power_b:
+      name: Active Power 2
       icon: mdi:flash
-    reactive_power_b:
+      filters:
+        - multiply: -1
+    reactive_power_a:
       name: Reactive Power 1
       icon: mdi:flash
+    reactive_power_b:
+      name: Reactive Power 2
+      icon: mdi:flash
+    current_pga_gain_a: 4x
+    current_pga_gain_b: 4x
     update_interval: 10s
 
 binary_sensor:
