@@ -8,6 +8,7 @@ packages:
 esphome:
   name: licht-buero
   friendly_name: Licht Büro
+  area: Büro
 
 binary_sensor:
   # Turn on/off light with latching switch, but maintain on/off positions
