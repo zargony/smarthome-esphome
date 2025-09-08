@@ -1,4 +1,4 @@
-esphome_image := "ghcr.io/esphome/esphome:2025.8.1"
+esphome_image := "ghcr.io/esphome/esphome:2025.8.3"
 
 docker := require("docker")
 docker_run_opts := "-it --rm -v .:/config -v ./cache:/cache"
