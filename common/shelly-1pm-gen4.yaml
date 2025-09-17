@@ -120,9 +120,10 @@ binary_sensor:
     pin:
       number: GPIO1
       inverted: true
-    id: button
+    id: internal_button
     filters:
       - delayed_on_off: 10ms
+    entity_category: diagnostic
   - platform: gpio
     pin: GPIO10
     id: switch_1
