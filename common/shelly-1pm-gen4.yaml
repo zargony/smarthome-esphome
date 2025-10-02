@@ -41,10 +41,6 @@ esp32:
   framework:
     type: esp-idf
 
-# FIXME: Workaround for ESP32-C6 ADC issue, see https://github.com/esphome/issues/issues/5363
-external_components:
-  - source: github://PhracturedBlue/c6_adc
-
 logger:
   # ESP32-C6 uses USB CDC for logging by default, but Shelly devices don't have USB
   hardware_uart: UART0
@@ -62,7 +58,7 @@ status_led:
 
 sensor:
   # Internal NTC temperature sensor
-  - platform: c6_adc
+  - platform: adc
     pin: GPIO3
     update_interval: 10s
     id: sensor_ntc_adc
