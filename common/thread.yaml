@@ -16,27 +16,35 @@ web_server:
 
 text_sensor:
   - platform: openthread_info
-    # ip_address:
-    #   name: Thread IP Address
-    #   icon: mdi:antenna
+    ip_address:
+      name: Thread IP Address
+      icon: mdi:antenna
+      state_topic: null
     role:
       name: Thread Role
       icon: mdi:antenna
+      state_topic: null
     rloc16:
       name: Thread RLOC16
       icon: mdi:antenna
+      state_topic: null
     ext_addr:
       name: Thread Extended Address
       icon: mdi:antenna
-    # eui64:
-    #   name: Thread EUI64
-    #   icon: mdi:antenna
-    # channel:
-    #   name: Thread Channel
-    #   icon: mdi:antenna
-    # network_name:
-    #   name: Thread Network Name
-    #   icon: mdi:antenna
-    # pan_id:
-    #   name: Thread PAN ID
-    #   icon: mdi:antenna
+      state_topic: null
+    eui64:
+      name: Thread EUI64
+      icon: mdi:antenna
+      state_topic: null
+    channel:
+      name: Thread Channel
+      icon: mdi:antenna
+      state_topic: null
+    network_name:
+      name: Thread Network Name
+      icon: mdi:antenna
+      state_topic: null
+    pan_id:
+      name: Thread PAN ID
+      icon: mdi:antenna
+      state_topic: null

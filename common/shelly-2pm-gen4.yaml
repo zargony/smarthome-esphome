@@ -88,9 +88,11 @@ sensor:
     voltage:
       name: Voltage
       icon: mdi:sine-wave
+      state_topic: null
     frequency:
       name: Frequency
       icon: mdi:sine-wave
+      state_topic: null
     current_a:
       name: Current 1
       icon: mdi:current-ac
@@ -101,6 +103,7 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
+      state_topic: null
     current_b:
       name: Current 2
       icon: mdi:current-ac
@@ -111,38 +114,45 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
+      state_topic: null
     power_factor_a:
       name: Power Factor 1
       icon: mdi:percent-outline
       filters:
         - multiply: -1
+      state_topic: null
     power_factor_b:
       name: Power Factor 2
       icon: mdi:percent-outline
       filters:
         - multiply: -1
+      state_topic: null
     apparent_power_a:
       name: Apparent Power 1
       icon: mdi:flash
+      state_topic: null
     apparent_power_b:
       name: Apparent Power 2
       icon: mdi:flash
+      state_topic: null
     active_power_a:
-      name: Active Power 1
+      name: Power 1
       icon: mdi:flash
       filters:
         - multiply: -1
     active_power_b:
-      name: Active Power 2
+      name: Power 2
       icon: mdi:flash
       filters:
         - multiply: -1
     reactive_power_a:
       name: Reactive Power 1
       icon: mdi:flash
+      state_topic: null
     reactive_power_b:
       name: Reactive Power 2
       icon: mdi:flash
+      state_topic: null
     current_pga_gain_a: 4x
     current_pga_gain_b: 4x
     update_interval: 10s

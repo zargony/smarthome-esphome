@@ -87,6 +87,7 @@ sensor:
     voltage:
       name: Voltage
       icon: mdi:sine-wave
+      state_topic: null
     current:
       name: Current
       icon: mdi:current-ac
@@ -97,16 +98,19 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output"
                 level: WARN
+      state_topic: null
     power:
       name: Power
       icon: mdi:flash
     energy:
       name: Energy
       icon: mdi:meter-electric-outline
+      state_topic: null
     frequency:
       name: Frequency
       icon: mdi:sine-wave
       accuracy_decimals: 2
+      state_topic: null
     update_interval: 10s
     uart_id: uart_bl0942
     line_frequency: 50Hz
