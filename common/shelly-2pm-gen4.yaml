@@ -31,7 +31,11 @@
 #
 # TODO: Are ADE7953 IRQ and RST connected to GPIOs like in Gen3?
 
-substitutions:
+defaults:
+  # Name prefix of channel A sensors
+  name_a: Channel A
+  # Name prefix of channel B sensors
+  name_b: Channel B
   # Max current (A) to allow per output. Higher current will trip the protection.
   max_current: 10.0
   # Max temperature (°C) to allow. Higher temperature will trip the protection.
@@ -94,7 +98,7 @@ sensor:
       icon: mdi:sine-wave
       state_topic: null
     current_a:
-      name: Current 1
+      name: ${name_a} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -105,7 +109,7 @@ sensor:
                 level: WARN
       state_topic: null
     current_b:
-      name: Current 2
+      name: ${name_b} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -116,41 +120,41 @@ sensor:
                 level: WARN
       state_topic: null
     power_factor_a:
-      name: Power Factor 1
+      name: ${name_a} Power Factor
       icon: mdi:percent-outline
       filters:
         - multiply: -1
       state_topic: null
     power_factor_b:
-      name: Power Factor 2
+      name: ${name_b} Power Factor
       icon: mdi:percent-outline
       filters:
         - multiply: -1
       state_topic: null
     apparent_power_a:
-      name: Apparent Power 1
+      name: ${name_a} Apparent Power
       icon: mdi:flash
       state_topic: null
     apparent_power_b:
-      name: Apparent Power 2
+      name: ${name_b} Apparent Power
       icon: mdi:flash
       state_topic: null
     active_power_a:
-      name: Power 1
+      name: ${name_a} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     active_power_b:
-      name: Power 2
+      name: ${name_b} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     reactive_power_a:
-      name: Reactive Power 1
+      name: ${name_a} Reactive Power
       icon: mdi:flash
       state_topic: null
     reactive_power_b:
-      name: Reactive Power 2
+      name: ${name_b} Reactive Power
       icon: mdi:flash
       state_topic: null
     current_pga_gain_a: 4x
