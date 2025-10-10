@@ -156,6 +156,7 @@ sensor:
     current_pga_gain_a: 4x
     current_pga_gain_b: 4x
     update_interval: 10s
+    use_accumulated_energy_registers: true
 
 binary_sensor:
   - platform: gpio
