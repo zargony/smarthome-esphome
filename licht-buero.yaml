@@ -10,6 +10,8 @@ esphome:
   friendly_name: Licht Büro
   area: Büro
 
+# TODO: Replace switch_1 and light_1 with common/light.yaml package once we have pushbuttons
+
 binary_sensor:
   # Turn on/off light with latching switch, but maintain on/off positions
   - id: !extend switch_1
@@ -24,6 +26,6 @@ light:
   - platform: binary
     output: relay_1
     id: light_1
-    name: Light
+    name: Licht Büro
     icon: mdi:lightbulb
     restore_mode: ALWAYS_OFF
