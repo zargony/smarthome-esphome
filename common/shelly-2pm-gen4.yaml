@@ -157,6 +157,7 @@ sensor:
     current_pga_gain_b: 4x
     update_interval: 10s
     use_accumulated_energy_registers: true
+    id: sensor_ade7953
 
 binary_sensor:
   - platform: gpio

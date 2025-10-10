@@ -114,6 +114,7 @@ sensor:
     update_interval: 10s
     uart_id: uart_bl0942
     line_frequency: 50Hz
+    id: sensor_bl0942
 
 binary_sensor:
   - platform: gpio
