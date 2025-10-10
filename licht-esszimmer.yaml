@@ -1,0 +1,22 @@
+# ESPHome configuration -- https://esphome.io/
+
+packages:
+  board: !include {
+    file: common/shelly-2pm-gen4.yaml,
+    vars: { name_a: "${name_a}", name_b: "${name_b}" }
+  }
+  base: !include common/base.yaml
+  thread: !include common/thread.yaml
+  lights: !include {
+    file: common/light-dual.yaml,
+    vars: { name_a: "${name_a}", name_b: "${name_b}" }
+  }
+
+substitutions:
+  name_a: Licht Esszimmer
+  name_b: Licht Wohnzimmer
+
+esphome:
+  name: licht-esszimmer
+  friendly_name: Licht Esszimmer
+  area: Esszimmer

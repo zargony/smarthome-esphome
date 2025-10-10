@@ -1,0 +1,21 @@
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for a single light switch
+
+defaults:
+  name: Light
+  suffix: _1
+
+binary_sensor:
+  # Turn on/off light with pushbutton
+  - id: !extend switch${suffix}
+    on_press:
+      then:
+        - light.toggle: light${suffix}
+
+light:
+  - platform: binary
+    output: relay${suffix}
+    id: light${suffix}
+    name: ${name}
+    icon: mdi:lightbulb
+    restore_mode: ALWAYS_OFF

@@ -1,0 +1,16 @@
+# ESPHome configuration package -- https://esphome.io/components/packages/
+# for dual light switches
+
+defaults:
+  name_a: Light A
+  name_b: Light B
+
+packages:
+  light_a: !include {
+    file: light.yaml,
+    vars: { name: "${name_a}", suffix: _1 }
+  }
+  light_b: !include {
+    file: light.yaml,
+    vars: { name: "${name_b}", suffix: _2 }
+  }
