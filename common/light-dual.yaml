@@ -2,15 +2,15 @@
 # for dual light switches
 
 defaults:
-  name_a: Light A
-  name_b: Light B
+  name_1: Light A
+  name_2: Light B
 
 packages:
   light_a: !include {
     file: light.yaml,
-    vars: { name: "${name_a}", suffix: _1 }
+    vars: { name: "${name_1}", suffix: _1 }
   }
   light_b: !include {
     file: light.yaml,
-    vars: { name: "${name_b}", suffix: _2 }
+    vars: { name: "${name_2}", suffix: _2 }
   }

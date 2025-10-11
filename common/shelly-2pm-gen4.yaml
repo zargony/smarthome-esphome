@@ -33,9 +33,9 @@
 
 defaults:
   # Name prefix of channel A sensors
-  name_a: Channel A
+  name_1: Channel A
   # Name prefix of channel B sensors
-  name_b: Channel B
+  name_2: Channel B
   # Max current (A) to allow per output. Higher current will trip the protection.
   max_current: 10.0
   # Max temperature (°C) to allow. Higher temperature will trip the protection.
@@ -98,7 +98,7 @@ sensor:
       icon: mdi:sine-wave
       state_topic: null
     current_a:
-      name: ${name_a} Current
+      name: ${name_1} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -109,7 +109,7 @@ sensor:
                 level: WARN
       state_topic: null
     current_b:
-      name: ${name_b} Current
+      name: ${name_2} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -120,41 +120,41 @@ sensor:
                 level: WARN
       state_topic: null
     power_factor_a:
-      name: ${name_a} Power Factor
+      name: ${name_1} Power Factor
       icon: mdi:percent-outline
       filters:
         - multiply: -1
       state_topic: null
     power_factor_b:
-      name: ${name_b} Power Factor
+      name: ${name_2} Power Factor
       icon: mdi:percent-outline
       filters:
         - multiply: -1
       state_topic: null
     apparent_power_a:
-      name: ${name_a} Apparent Power
+      name: ${name_1} Apparent Power
       icon: mdi:flash
       state_topic: null
     apparent_power_b:
-      name: ${name_b} Apparent Power
+      name: ${name_2} Apparent Power
       icon: mdi:flash
       state_topic: null
     active_power_a:
-      name: ${name_a} Power
+      name: ${name_1} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     active_power_b:
-      name: ${name_b} Power
+      name: ${name_2} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     reactive_power_a:
-      name: ${name_a} Reactive Power
+      name: ${name_1} Reactive Power
       icon: mdi:flash
       state_topic: null
     reactive_power_b:
-      name: ${name_b} Reactive Power
+      name: ${name_2} Reactive Power
       icon: mdi:flash
       state_topic: null
     current_pga_gain_a: 4x

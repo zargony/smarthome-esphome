@@ -3,18 +3,18 @@
 packages:
   board: !include {
     file: common/shelly-2pm-gen4.yaml,
-    vars: { name_a: "${name_a}", name_b: "${name_b}" }
+    vars: { name_1: "${name_1}", name_2: "${name_2}" }
   }
   base: !include common/base.yaml
   thread: !include common/thread.yaml
   lights: !include {
     file: common/light-dual.yaml,
-    vars: { name_a: "${name_a}", name_b: "${name_b}" }
+    vars: { name_1: "${name_1}", name_2: "${name_2}" }
   }
 
 substitutions:
-  name_a: Licht Esszimmer
-  name_b: Licht Wohnzimmer
+  name_1: Licht Esszimmer
+  name_2: Licht Wohnzimmer
 
 esphome:
   name: licht-esszimmer
