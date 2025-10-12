@@ -4,6 +4,16 @@
 defaults:
   name: Light
   suffix: _1
+  timeout: 0s
+
+script:
+  # Turn off light after timeout
+  - id: light${suffix}_delayed_off
+    mode: restart
+    then:
+      - delay: ${timeout}
+      - logger.log: Timeout, turning off light${suffix}
+      - light.turn_off: light_1
 
 binary_sensor:
   # Turn on/off light with pushbutton
@@ -19,3 +29,19 @@ light:
     name: ${name}
     icon: mdi:lightbulb
     restore_mode: ALWAYS_OFF
+    # Can't use `on_turn_on` trigger here, because it doesn't trigger when
+    # the light is already on (in which case we extend the timeout).
+    on_state:
+      - if:
+          condition:
+            lambda: 'return strcmp("${timeout}", "0s");'
+          then:
+            if:
+              condition:
+                lambda: 'return id(light${suffix}).remote_values.is_on();'
+              then:
+                - output.turn_on: relay${suffix}
+                - script.execute: light${suffix}_delayed_off
+              else:
+                - output.turn_off: relay${suffix}
+                - script.stop: light${suffix}_delayed_off
