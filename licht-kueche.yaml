@@ -1,0 +1,25 @@
+# ESPHome configuration -- https://esphome.io/
+
+packages:
+  board: !include common/shelly-1pm-gen4.yaml
+  base: !include common/base.yaml
+  thread: !include common/thread.yaml
+  light: !include {
+    file: common/light.yaml,
+    vars: { name: "${name}" }
+  }
+
+substitutions:
+  name: Licht Kueche
+
+esphome:
+  name: licht-kueche
+  friendly_name: Licht Küche
+  area: Küche
+
+binary_sensor:
+  # Switch is latching, so toggle light on release as well (until we get a pushbutton some day)
+  - id: !extend switch_1
+    on_release:
+      then:
+        - light.toggle: light_1
