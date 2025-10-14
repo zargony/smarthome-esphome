@@ -4,13 +4,15 @@
 defaults:
   name_1: Light A
   name_2: Light B
+  timeout_1: 0s
+  timeout_2: 0s
 
 packages:
   light_a: !include {
     file: light.yaml,
-    vars: { name: "${name_1}", suffix: _1 }
+    vars: { name: "${name_1}", suffix: _1, timeout: "${timeout_1}" }
   }
   light_b: !include {
     file: light.yaml,
-    vars: { name: "${name_2}", suffix: _2 }
+    vars: { name: "${name_2}", suffix: _2, timeout: "${timeout_2}" }
   }
