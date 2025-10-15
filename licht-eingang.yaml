@@ -1,0 +1,22 @@
+# ESPHome configuration -- https://esphome.io/
+
+packages:
+  board: !include {
+    file: common/shelly-2pm-gen4.yaml,
+    vars: { name_1: "${name_1}", name_2: "${name_2}" }
+  }
+  base: !include common/base.yaml
+  thread: !include common/thread.yaml
+  lights: !include {
+    file: common/light-dual.yaml,
+    vars: { name_1: "${name_1}", timeout_1: 5min, name_2: "${name_2}", timeout_2: 5min }
+  }
+
+substitutions:
+  name_1: Licht Eingang
+  name_2: Licht Aussen
+
+esphome:
+  name: licht-eingang
+  friendly_name: Licht Eingang
+  area: Eingang
