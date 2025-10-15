@@ -13,7 +13,7 @@ script:
     then:
       - delay: ${timeout}
       - logger.log: Timeout, turning off light${suffix}
-      - light.turn_off: light_1
+      - light.turn_off: light${suffix}
 
 binary_sensor:
   # Turn on/off light with pushbutton
