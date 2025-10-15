@@ -12,7 +12,7 @@ script:
     mode: restart
     then:
       - delay: ${timeout}
-      - logger.log: Timeout, turning off light${suffix}
+      - logger.log: Timeout, turning off ${name}
       - light.turn_off: light${suffix}
 
 binary_sensor:

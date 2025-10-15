@@ -8,11 +8,11 @@ defaults:
   timeout_2: 0s
 
 packages:
-  light_a: !include {
+  light_1: !include {
     file: light.yaml,
     vars: { name: "${name_1}", suffix: _1, timeout: "${timeout_1}" }
   }
-  light_b: !include {
+  light_2: !include {
     file: light.yaml,
     vars: { name: "${name_2}", suffix: _2, timeout: "${timeout_2}" }
   }
