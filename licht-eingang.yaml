@@ -9,12 +9,14 @@ packages:
   thread: !include common/thread.yaml
   lights: !include {
     file: common/light-dual.yaml,
-    vars: { name_1: "${name_1}", timeout_1: 5min, name_2: "${name_2}", timeout_2: 5min }
+    vars: { name_1: "${name_1}", name_2: "${name_2}", timeout_1: "${timeout_1}", timeout_2: "${timeout_2}" }
   }
 
 substitutions:
   name_1: Licht Eingang
   name_2: Licht Aussen
+  timeout_1: 5min
+  timeout_2: 5min
 
 esphome:
   name: licht-eingang

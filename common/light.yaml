@@ -30,7 +30,7 @@ light:
     icon: mdi:lightbulb
     restore_mode: ALWAYS_OFF
     # Can't use `on_turn_on` trigger here, because it doesn't trigger when
-    # the light is already on (in which case we extend the timeout).
+    # the light is already on (in which case we want to extend the timeout).
     on_state:
       - if:
           condition:

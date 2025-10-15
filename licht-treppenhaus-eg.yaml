@@ -6,11 +6,12 @@ packages:
   thread: !include common/thread.yaml
   light: !include {
     file: common/light.yaml,
-    vars: { name: "${name}", timeout: 5min }
+    vars: { name: "${name}", timeout: "${timeout}" }
   }
 
 substitutions:
   name: Licht Treppenhaus EG
+  timeout: 5min
 
 esphome:
   name: licht-treppenhaus-eg
