@@ -90,14 +90,17 @@ sensor:
 
   - platform: ade7953_i2c
     voltage:
+      id: sensor_voltage
       name: Voltage
       icon: mdi:sine-wave
       state_topic: null
     frequency:
+      id: sensor_frequency
       name: Frequency
       icon: mdi:sine-wave
       state_topic: null
     current_a:
+      id: sensor_current_1
       name: ${name_1} Current
       icon: mdi:current-ac
       on_value_range:
@@ -109,6 +112,7 @@ sensor:
                 level: WARN
       state_topic: null
     current_b:
+      id: sensor_current_2
       name: ${name_2} Current
       icon: mdi:current-ac
       on_value_range:
@@ -136,11 +140,13 @@ sensor:
       icon: mdi:flash
       state_topic: null
     active_power_a:
+      id: sensor_power_1
       name: ${name_1} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     active_power_b:
+      id: sensor_power_2
       name: ${name_2} Power
       icon: mdi:flash
       filters:
