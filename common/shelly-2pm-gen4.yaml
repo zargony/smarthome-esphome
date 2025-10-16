@@ -122,14 +122,10 @@ sensor:
     power_factor_a:
       name: ${name_1} Power Factor
       icon: mdi:percent-outline
-      filters:
-        - multiply: -1
       state_topic: null
     power_factor_b:
       name: ${name_2} Power Factor
       icon: mdi:percent-outline
-      filters:
-        - multiply: -1
       state_topic: null
     apparent_power_a:
       name: ${name_1} Apparent Power
