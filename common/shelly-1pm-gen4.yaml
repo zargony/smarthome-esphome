@@ -70,21 +70,21 @@ sensor:
   # Internal NTC temperature sensor
   - platform: adc
     pin: GPIO3
-    update_interval: 10s
+    # Short update interval for quick detection of overheating
+    update_interval: 1s
     id: sensor_ntc_adc
   - platform: resistance
     sensor: sensor_ntc_adc
     configuration: DOWNSTREAM
     resistor: 10kOhm
     id: sensor_ntc_resistance
-  # Change internal temperature sensor to use NTC temperature sensor
-  - id: !extend sensor_internal_temperature
-    platform: ntc
+  - platform: ntc
     sensor: sensor_ntc_resistance
     calibration:
       b_constant: 3350
       reference_resistance: 10kOhm
       reference_temperature: 298.15K # 25°C
+    id: sensor_ntc_temperature
     on_value_range:
       - above: ${max_temperature}
         then:
@@ -93,15 +93,21 @@ sensor:
               format: "OVERHEAT DETECTED, turned off output"
               level: WARN
 
+  # Change internal temperature sensor (which seems uncalibrated on Shelly
+  # devices) to use NTC temperature but update less often
+  - id: !extend sensor_internal_temperature
+    platform: copy
+    source_id: sensor_ntc_temperature
+    filters:
+      - throttle_average: 60s
+
+  # Energy sensor
   - platform: bl0942
     voltage:
       id: sensor_voltage
-      name: Voltage
       icon: mdi:sine-wave
-      state_topic: null
     current:
       id: sensor_current
-      name: Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -110,26 +116,52 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output"
                 level: WARN
-      state_topic: null
     power:
       id: sensor_power
-      name: Power
       icon: mdi:flash
     energy:
       id: sensor_energy
-      name: Energy
       icon: mdi:meter-electric-outline
-      state_topic: null
     frequency:
       id: sensor_frequency
-      name: Frequency
       icon: mdi:sine-wave
       accuracy_decimals: 2
-      state_topic: null
-    update_interval: 10s
+    # Short update interval for quick detection of overload
+    update_interval: 1s
     uart_id: uart_bl0942
     line_frequency: 50Hz
     id: sensor_bl0942
+
+  # Publish energy sensor values, but less often to reduce traffic
+  - platform: copy
+    source_id: sensor_voltage
+    name: Voltage
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_current
+    name: Current
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_power
+    name: Power
+    filters:
+      - throttle_average: 10s
+  - platform: copy
+    source_id: sensor_energy
+    name: Energy
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_frequency
+    name: Frequency
+    filters:
+      - throttle_average: 10s
+    state_topic: null
 
 binary_sensor:
   - platform: gpio

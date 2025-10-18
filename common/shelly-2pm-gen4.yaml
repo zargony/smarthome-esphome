@@ -64,21 +64,21 @@ sensor:
   # Internal NTC temperature sensor
   - platform: adc
     pin: GPIO4
-    update_interval: 10s
+    # Short update interval for quick detection of overheating
+    update_interval: 1s
     id: sensor_ntc_adc
   - platform: resistance
     sensor: sensor_ntc_adc
     configuration: DOWNSTREAM
     resistor: 10kOhm
     id: sensor_ntc_resistance
-  # Change internal temperature sensor to use NTC temperature sensor
-  - id: !extend sensor_internal_temperature
-    platform: ntc
+  - platform: ntc
     sensor: sensor_ntc_resistance
     calibration:
       b_constant: 3350
       reference_resistance: 10kOhm
       reference_temperature: 298.15K # 25°C
+    id: sensor_ntc_temperature
     on_value_range:
       - above: ${max_temperature}
         then:
@@ -88,20 +88,24 @@ sensor:
               format: "OVERHEAT DETECTED, turned off all outputs"
               level: WARN
 
+  # Change internal temperature sensor (which seems uncalibrated on Shelly
+  # devices) to use NTC temperature but update less often
+  - id: !extend sensor_internal_temperature
+    platform: copy
+    source_id: sensor_ntc_temperature
+    filters:
+      - throttle_average: 60s
+
+  # Energy sensor
   - platform: ade7953_i2c
     voltage:
       id: sensor_voltage
-      name: Voltage
       icon: mdi:sine-wave
-      state_topic: null
     frequency:
       id: sensor_frequency
-      name: Frequency
       icon: mdi:sine-wave
-      state_topic: null
     current_a:
       id: sensor_current_1
-      name: ${name_1} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -110,10 +114,8 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
-      state_topic: null
     current_b:
       id: sensor_current_2
-      name: ${name_2} Current
       icon: mdi:current-ac
       on_value_range:
         - above: ${max_current}
@@ -122,48 +124,112 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
-      state_topic: null
     power_factor_a:
-      name: ${name_1} Power Factor
+      id: sensor_power_factor_1
       icon: mdi:percent-outline
-      state_topic: null
     power_factor_b:
-      name: ${name_2} Power Factor
+      id: sensor_power_factor_2
       icon: mdi:percent-outline
-      state_topic: null
     apparent_power_a:
-      name: ${name_1} Apparent Power
+      id: sensor_apparent_power_1
       icon: mdi:flash
-      state_topic: null
     apparent_power_b:
-      name: ${name_2} Apparent Power
+      id: sensor_apparent_power_2
       icon: mdi:flash
-      state_topic: null
     active_power_a:
       id: sensor_power_1
-      name: ${name_1} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     active_power_b:
       id: sensor_power_2
-      name: ${name_2} Power
       icon: mdi:flash
       filters:
         - multiply: -1
     reactive_power_a:
-      name: ${name_1} Reactive Power
+      id: sensor_reactive_power_1
       icon: mdi:flash
-      state_topic: null
     reactive_power_b:
-      name: ${name_2} Reactive Power
+      id: sensor_reactive_power_2
       icon: mdi:flash
-      state_topic: null
     current_pga_gain_a: 4x
     current_pga_gain_b: 4x
-    update_interval: 10s
+    # Short update interval for quick detection of overload
+    update_interval: 1s
     use_accumulated_energy_registers: true
     id: sensor_ade7953
+
+  # Publish energy sensor values, but less often to reduce traffic
+  - platform: copy
+    source_id: sensor_voltage
+    name: Voltage
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_frequency
+    name: Frequency
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_current_1
+    name: ${name_1} Current
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_current_2
+    name: ${name_2} Current
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_power_factor_1
+    name: ${name_1} Power Factor
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_power_factor_2
+    name: ${name_2} Power Factor
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_apparent_power_1
+    name: ${name_1} Apparent Power
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_apparent_power_2
+    name: ${name_2} Apparent Power
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_power_1
+    name: ${name_1} Power
+    filters:
+      - throttle_average: 10s
+  - platform: copy
+    source_id: sensor_power_2
+    name: ${name_2} Power
+    filters:
+      - throttle_average: 10s
+  - platform: copy
+    source_id: sensor_reactive_power_1
+    name: ${name_1} Reactive Power
+    filters:
+      - throttle_average: 10s
+    state_topic: null
+  - platform: copy
+    source_id: sensor_reactive_power_2
+    name: ${name_2} Reactive Power
+    filters:
+      - throttle_average: 10s
+    state_topic: null
 
 binary_sensor:
   - platform: gpio
