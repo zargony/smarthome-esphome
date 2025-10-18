@@ -87,6 +87,11 @@ sensor:
           - logger.log:
               format: "OVERHEAT DETECTED, turned off all outputs"
               level: WARN
+          - homeassistant.action:
+              action: notify.persistent_notification
+              data:
+                title: "OVERHEAT ${name_1}"
+                message: "Shelly 2PM has overheated and turned off all outputs to protect itself."
 
   # Change internal temperature sensor (which seems uncalibrated on Shelly
   # devices) to use NTC temperature but update less often
@@ -114,6 +119,11 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 1"
                 level: WARN
+            - homeassistant.action:
+                action: notify.persistent_notification
+                data:
+                  title: "OVERCURRENT ${name_1}"
+                  message: "Shelly 2PM was overloaded and turned off output 1 to protect itself."
     current_b:
       id: sensor_current_2
       icon: mdi:current-ac
@@ -124,6 +134,11 @@ sensor:
             - logger.log:
                 format: "OVERCURRENT DETECTED, turned off output 2"
                 level: WARN
+            - homeassistant.action:
+                action: notify.persistent_notification
+                data:
+                  title: "OVERCURRENT ${name_2}"
+                  message: "Shelly 2PM was overloaded and turned off output 2 to protect itself."
     power_factor_a:
       id: sensor_power_factor_1
       icon: mdi:percent-outline

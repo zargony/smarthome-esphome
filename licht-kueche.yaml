@@ -1,7 +1,10 @@
 # ESPHome configuration -- https://esphome.io/
 
 packages:
-  board: !include common/shelly-1pm-gen4.yaml
+  board: !include {
+    file: common/shelly-1pm-gen4.yaml,
+    vars: { name: "${name}" }
+  }
   base: !include common/base.yaml
   thread: !include common/thread.yaml
   light: !include {
