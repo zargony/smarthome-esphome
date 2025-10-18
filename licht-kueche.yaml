@@ -24,5 +24,4 @@ binary_sensor:
   # Switch is latching, so toggle light on release as well (until we get a pushbutton some day)
   - id: !extend switch_1
     on_release:
-      then:
-        - light.toggle: light_1
+      - light.toggle: light_1

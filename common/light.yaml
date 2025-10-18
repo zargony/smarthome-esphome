@@ -19,8 +19,7 @@ binary_sensor:
   # Turn on/off light with pushbutton
   - id: !extend switch${suffix}
     on_press:
-      then:
-        - light.toggle: light${suffix}
+      - light.toggle: light${suffix}
 
 light:
   - platform: binary

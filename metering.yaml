@@ -15,11 +15,10 @@ esphome:
   friendly_name: Energiezähler
   area: Keller
   on_boot:
-    then:
-      # On boot, restore previous counter values
-      - lambda: |-
-          id(sensor_gas_flow).set_total_pulses(id(gas_counter));
-          id(sensor_water_flow).set_total_pulses(id(water_counter));
+    # On boot, restore previous counter values
+    - lambda: |-
+        id(sensor_gas_flow).set_total_pulses(id(gas_counter));
+        id(sensor_water_flow).set_total_pulses(id(water_counter));
 
 external_components:
   # OBIS D0 component for reading electrical meter IR interface
@@ -92,8 +91,7 @@ sensor:
       web_server:
         sorting_group_id: sorting_group_gas
       on_raw_value:
-        then:
-          - lambda: 'id(gas_counter) = x;'
+        - lambda: 'id(gas_counter) = x;'
 
   # Allow to set current gas import total via MQTT
   - platform: mqtt_subscribe
@@ -102,8 +100,7 @@ sensor:
     filters:
       - multiply: 100 # 1 pulse per 0.01 m³
     on_value:
-      then:
-        - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
+      - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
 
   # Water impulse meter (contact 2)
   - platform: pulse_meter
@@ -129,8 +126,7 @@ sensor:
       web_server:
         sorting_group_id: sorting_group_water
       on_raw_value:
-        then:
-          - lambda: 'id(water_counter) = x;'
+        - lambda: 'id(water_counter) = x;'
 
   # Allow to set current water import total via MQTT
   - platform: mqtt_subscribe
@@ -139,8 +135,7 @@ sensor:
     filters:
       - multiply: 1000 # 1 pulse per 0.001 m³
     on_value:
-      then:
-        - lambda: 'id(sensor_water_flow).set_total_pulses(x);'
+      - lambda: 'id(sensor_water_flow).set_total_pulses(x);'
 
   # Electric import meter (OBIS D0 via UART interface)
   - platform: obis_d0
