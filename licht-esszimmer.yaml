@@ -7,9 +7,13 @@ packages:
   }
   base: !include common/base.yaml
   thread: !include common/thread.yaml
-  lights: !include {
-    file: common/light-dual.yaml,
-    vars: { name_1: "${name_1}", name_2: "${name_2}" }
+  light_1: !include {
+    file: common/light.yaml,
+    vars: { name: "${name_1}", suffix: _1 }
+  }
+  light_2: !include {
+    file: common/light.yaml,
+    vars: { name: "${name_2}", suffix: _2 }
   }
 
 substitutions:
