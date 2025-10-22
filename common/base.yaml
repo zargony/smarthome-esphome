@@ -62,6 +62,18 @@ button:
     name: Restart Device
     entity_category: diagnostic
 
+switch:
+  # Debug logging switch
+  - platform: template
+    turn_on_action:
+      - logger.set_level: DEBUG
+    turn_off_action:
+      - logger.set_level: INFO
+    optimistic: true
+    name: Debug Logging
+    icon: mdi:bug
+    entity_category: diagnostic
+
 text_sensor:
   # Version number and build date
   - platform: version
