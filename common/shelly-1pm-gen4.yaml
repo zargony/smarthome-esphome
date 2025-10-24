@@ -35,12 +35,6 @@ defaults:
   # Max temperature (°C) to allow. Higher temperature will trip the protection.
   max_temperature: 80.0
 
-# FIXME: Support for Rx pullup required for BL0942 communication. Remove once it's merged upstream.
-external_components:
-  - source: github://pr#9248
-    components: [ uart ]
-    refresh: 1h
-
 esp32:
   variant: esp32c6
   flash_size: 8MB
