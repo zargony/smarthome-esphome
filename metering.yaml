@@ -198,6 +198,7 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric power measurement (L2)
   - platform: obis_d0
@@ -212,6 +213,7 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric power measurement (L3)
   - platform: obis_d0
@@ -226,6 +228,7 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric voltage measurement (L1)
   - platform: obis_d0
@@ -240,6 +243,7 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric voltage measurement (L2)
   - platform: obis_d0
@@ -254,6 +258,7 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric voltage measurement (L3)
   - platform: obis_d0
@@ -268,6 +273,7 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
+    state_topic: null
 
   # Electric meter time of operation
   - platform: obis_d0
@@ -297,22 +303,20 @@ sensor:
     entity_category: diagnostic
 
 text_sensor:
-  # # Electric meter owner id
-  # - platform: obis_d0
-  #   obis_code: 1-0:0.0.0*255
-  #   obis_d0_id: obis_electric
-  #   name: Electric Owner Identification
-  #   icon: mdi:information-outline
-  #   entity_category: diagnostic
-  #   filters:
-  #     - TODO: only publish these when changed to avoid unneeded updates
+  # Electric meter owner id
+  - platform: obis_d0
+    obis_code: 1-0:0.0.0*255
+    obis_d0_id: obis_electric
+    name: Electric Owner Identification
+    icon: mdi:information-outline
+    entity_category: diagnostic
+    state_topic: null
 
-  # # Electric meter device id
-  # - platform: obis_d0
-  #   obis_code: 1-0:96.1.0*255
-  #   obis_d0_id: obis_electric
-  #   name: Electric Device Identification
-  #   icon: mdi:information-outline
-  #   entity_category: diagnostic
-  #   filters:
-  #     - TODO: only publish these when changed to avoid unneeded updates
+  # Electric meter device id
+  - platform: obis_d0
+    obis_code: 1-0:96.1.0*255
+    obis_d0_id: obis_electric
+    name: Electric Device Identification
+    icon: mdi:information-outline
+    entity_category: diagnostic
+    state_topic: null
