@@ -142,13 +142,11 @@ sensor:
     name: Voltage
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_current
     name: Current
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_power
     name: Power
@@ -159,13 +157,11 @@ sensor:
     name: Energy
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_frequency
     name: Frequency
     filters:
       - throttle_average: 10s
-    state_topic: null
 
 binary_sensor:
   - platform: gpio

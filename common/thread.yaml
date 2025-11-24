@@ -10,11 +10,6 @@ openthread:
 network:
   enable_ipv6: true
 
-mqtt:
-  # Standard DNS resolution doesn't seem to work with Thread
-  # Also IPv6 isn't recognized here (and is tried to be resolved)
-  broker: 192.168.26.76
-
 web_server:
   # Save bandwidth by not serving static files via Thread
   local: false
@@ -24,32 +19,24 @@ text_sensor:
     ip_address:
       name: Thread IP Address
       icon: mdi:antenna
-      state_topic: null
     role:
       name: Thread Role
       icon: mdi:antenna
-      state_topic: null
     rloc16:
       name: Thread RLOC16
       icon: mdi:antenna
-      state_topic: null
     ext_addr:
       name: Thread Extended Address
       icon: mdi:antenna
-      state_topic: null
     eui64:
       name: Thread EUI64
       icon: mdi:antenna
-      state_topic: null
     channel:
       name: Thread Channel
       icon: mdi:antenna
-      state_topic: null
     network_name:
       name: Thread Network Name
       icon: mdi:antenna
-      state_topic: null
     pan_id:
       name: Thread PAN ID
       icon: mdi:antenna
-      state_topic: null

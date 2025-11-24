@@ -12,14 +12,6 @@ api:
   # Disable automatic reboot when API disconnected (when Home Assistant is down)
   reboot_timeout: 0s
 
-mqtt:
-  broker: mqtt.home.zargony.com
-  # Home Assistant automatic device discovery (listens on MQTT `esphome/discover`
-  # and `esphome/ping/<APP_NAME>`` and responds on `esphome/discover/<APP_NAME>`)
-  discover_ip: false
-  # Home Assistant automatic entity discovery (publish to MQTT `homeassistant/...`)
-  discovery: false
-
 logger:
   # Compile firmware with debug logging
   level: DEBUG

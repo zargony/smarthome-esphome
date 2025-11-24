@@ -93,15 +93,6 @@ sensor:
       on_raw_value:
         - lambda: 'id(gas_counter) = x;'
 
-  # Allow to set current gas import total via MQTT
-  - platform: mqtt_subscribe
-    topic: metering/sensor/gas_import_total/set
-    id: sensor_set_gas_import_total
-    filters:
-      - multiply: 100 # 1 pulse per 0.01 m³
-    on_value:
-      - lambda: 'id(sensor_gas_flow).set_total_pulses(x);'
-
   # Water impulse meter (contact 2)
   - platform: pulse_meter
     pin: GPIO4
@@ -127,15 +118,6 @@ sensor:
         sorting_group_id: sorting_group_water
       on_raw_value:
         - lambda: 'id(water_counter) = x;'
-
-  # Allow to set current water import total via MQTT
-  - platform: mqtt_subscribe
-    topic: metering/sensor/water_import_total/set
-    id: sensor_set_water_import_total
-    filters:
-      - multiply: 1000 # 1 pulse per 0.001 m³
-    on_value:
-      - lambda: 'id(sensor_water_flow).set_total_pulses(x);'
 
   # Electric import meter (OBIS D0 via UART interface)
   - platform: obis_d0
@@ -198,7 +180,6 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric power measurement (L2)
   - platform: obis_d0
@@ -213,7 +194,6 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric power measurement (L3)
   - platform: obis_d0
@@ -228,7 +208,6 @@ sensor:
     accuracy_decimals: 2
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric voltage measurement (L1)
   - platform: obis_d0
@@ -243,7 +222,6 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric voltage measurement (L2)
   - platform: obis_d0
@@ -258,7 +236,6 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric voltage measurement (L3)
   - platform: obis_d0
@@ -273,7 +250,6 @@ sensor:
     accuracy_decimals: 1
     web_server:
       sorting_group_id: sorting_group_electric
-    state_topic: null
 
   # Electric meter time of operation
   - platform: obis_d0
@@ -310,7 +286,6 @@ text_sensor:
     name: Electric Owner Identification
     icon: mdi:information-outline
     entity_category: diagnostic
-    state_topic: null
 
   # Electric meter device id
   - platform: obis_d0
@@ -319,4 +294,3 @@ text_sensor:
     name: Electric Device Identification
     icon: mdi:information-outline
     entity_category: diagnostic
-    state_topic: null

@@ -16,43 +16,33 @@ text_sensor:
     ip_address:
       name: WiFi IP Address
       icon: mdi:wifi
-      state_topic: null
       address_0:
         name: WiFi IP Address 0
         icon: mdi:wifi
-        state_topic: null
       address_1:
         name: WiFi IP Address 1
         icon: mdi:wifi
-        state_topic: null
       address_2:
         name: WiFi IP Address 2
         icon: mdi:wifi
-        state_topic: null
       address_3:
         name: WiFi IP Address 3
         icon: mdi:wifi
-        state_topic: null
       address_4:
         name: WiFi IP Address 4
         icon: mdi:wifi
-        state_topic: null
     ssid:
       name: WiFi SSID
       icon: mdi:wifi
-      state_topic: null
     bssid:
       name: WiFi BSSID
       icon: mdi:wifi
     mac_address:
       name: WiFi MAC Address
       icon: mdi:wifi
-      state_topic: null
     scan_results:
       name: WiFi Latest Scan Results
       icon: mdi:wifi
-      state_topic: null
     dns_address:
       name: WiFi DNS Address
       icon: mdi:wifi
-      state_topic: null

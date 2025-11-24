@@ -180,49 +180,41 @@ sensor:
     name: Voltage
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_frequency
     name: Frequency
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_current_1
     name: ${name_1} Current
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_current_2
     name: ${name_2} Current
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_power_factor_1
     name: ${name_1} Power Factor
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_power_factor_2
     name: ${name_2} Power Factor
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_apparent_power_1
     name: ${name_1} Apparent Power
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_apparent_power_2
     name: ${name_2} Apparent Power
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_power_1
     name: ${name_1} Power
@@ -238,13 +230,11 @@ sensor:
     name: ${name_1} Reactive Power
     filters:
       - throttle_average: 10s
-    state_topic: null
   - platform: copy
     source_id: sensor_reactive_power_2
     name: ${name_2} Reactive Power
     filters:
       - throttle_average: 10s
-    state_topic: null
 
 binary_sensor:
   - platform: gpio
